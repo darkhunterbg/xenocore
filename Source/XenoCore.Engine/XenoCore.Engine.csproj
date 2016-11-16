@@ -64,6 +64,11 @@
     <Compile Include="Services\Graphics\Resource.cs" />
     <Compile Include="Services\Graphics\ResourceCache.cs" />
     <Compile Include="Services\Graphics\GraphicsService.cs" />
+    <Compile Include="Services\Input\GameTextInput.cs" />
+    <Compile Include="Services\Input\InputService.cs" />
+    <Compile Include="Services\Input\InputState.cs" />
+    <Compile Include="Services\Input\ITextInputProvider.cs" />
+    <Compile Include="Services\Input\Mouse.cs" />
     <Compile Include="Utilities\Debug.cs" />
     <Compile Include="Utilities\ListArray.cs" />
     <Compile Include="XenoCoreGame.cs" />

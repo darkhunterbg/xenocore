@@ -14,7 +14,7 @@ namespace XenoCore.Desktop.Test
         [STAThread]
         static void Main()
         {
-            using (var game = new XenoCoreGame())
+            using (var game = new DesktopGame())
                 game.Run();
         }
     }

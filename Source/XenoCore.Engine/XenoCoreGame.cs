@@ -6,14 +6,16 @@ using System.Text;
 using System.Threading.Tasks;
 using XenoCore.Engine.Services.Assets;
 using XenoCore.Engine.Services.Graphics;
+using XenoCore.Engine.Services.Input;
 
 namespace XenoCore.Engine
 {
-    public class XenoCoreGame : Game
+    public class XenoCoreGame : Game 
     {
         private GraphicsDeviceManager graphics;
-
         private GraphicsService graphicsService;
+        private InputService inputService;
+
 
         public XenoCoreGame()
         {
@@ -37,16 +39,22 @@ namespace XenoCore.Engine
         {
             ServiceProvider.Add(new AssetsService(Content));
             ServiceProvider.Add(graphicsService = new GraphicsService(GraphicsDevice, ServiceProvider.Get<AssetsService>()));
-
+            ServiceProvider.Add(inputService =new InputService(new GameTextInput(this)));
         }
         protected override void UnloadContent()
         {
-
             ServiceProvider.Dispose();
         }
 
+        private StringBuilder sb = new StringBuilder();
+
         protected override void Update(GameTime gameTime)
         {
+            inputService.Update(gameTime);
+
+            inputService.State.UpdateInputText(sb);
+               
+
             //Texture t = graphicsService.ResourceCache.Textures.Get("earth");
 
             //RenderInstance instance = graphicsService.Renderer.NewTexture(t, 0, BlendingMode.Alpha, 0);
@@ -70,15 +78,13 @@ namespace XenoCore.Engine
 
             RenderInstance instance = graphicsService.Renderer.NewFont(t, 0, BlendingMode.Alpha, 0);
 
-            instance.Destination = new Rectangle(100,100, 400, 300);
+            instance.Destination = new Rectangle(0, 0, 0, 0);
             instance.Color = Color.White;
-            instance.Text = "WTF TEXT";
-            instance.TextScale = Vector2.One* 0.5f;
+            instance.TextScale = Vector2.One;
+            instance.Text = sb.ToString();
 
             base.Update(gameTime);
         }
-
-        float r = 0;
 
         protected override void Draw(GameTime gameTime)
         {
