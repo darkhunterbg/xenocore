@@ -55,21 +55,30 @@ namespace XenoCore.Engine
             //instance.Center = new Vector2(0, 0);
             //instance.TexturePart = new Rectangle(0, 0, 800, 600);
             //instance.Color = Color.White;
-            //instance.Rotation = MathHelper.PiOver4;
+            // instance.Rotation = MathHelper.PiOver4;
+
+            //t = graphicsService.ResourceCache.Textures.Get("earth2");
+            //instance = graphicsService.Renderer.NewTexture(t, 0, BlendingMode.Alpha, 0);
+
+            //instance.Destination = new Rectangle(100, 100, 400, 300);
+            //instance.Center = new Vector2(0, 0);
+            //instance.TexturePart = new Rectangle(0, 0, 800, 600);
+            //instance.Color = Color.Red;
+            //  instance.Rotation = MathHelper.PiOver4;
 
             Font t = graphicsService.ResourceCache.Fonts.Get("default");
 
             RenderInstance instance = graphicsService.Renderer.NewFont(t, 0, BlendingMode.Alpha, 0);
 
-            instance.Destination = new Rectangle(0, 0, 400, 300);
-            instance.Center = new Vector2(0, 0);
-            instance.TexturePart = new Rectangle(0, 0, 800, 600);
+            instance.Destination = new Rectangle(100,100, 400, 300);
             instance.Color = Color.White;
-            instance.Rotation = MathHelper.PiOver4;
             instance.Text = "WTF TEXT";
+            instance.TextScale = Vector2.One* 0.5f;
 
             base.Update(gameTime);
         }
+
+        float r = 0;
 
         protected override void Draw(GameTime gameTime)
         {

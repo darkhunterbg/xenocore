@@ -137,7 +137,7 @@ namespace XenoCore.Engine.Services.Graphics
         public void ExecuteCommands()
         {
             States[0].TransformMatrix = Matrix.Identity;
-          //  States[0].Viewport = device.Viewport;
+            //  States[0].Viewport = device.Viewport;
 
             //Like this for now
             var sorted = commandList.Take(commandList.Count).OrderBy(p => p.Key).ToList();
@@ -169,7 +169,8 @@ namespace XenoCore.Engine.Services.Graphics
                     {
                         var instance = data.Instances[j];
                         //Hack it for now
-                        spriteBatch.DrawString(font, instance.Text, new Vector2(instance.Destination.X, instance.Destination.Y), instance.Color);
+                        spriteBatch.DrawString(font, instance.Text, new Vector2(instance.Destination.X, instance.Destination.Y), instance.Color,
+                            instance.Rotation, instance.Center, instance.TextScale, instance.Effects, 0);
                     }
                 }
                 else
@@ -182,7 +183,7 @@ namespace XenoCore.Engine.Services.Graphics
                         var instance = data.Instances[j];
 
                         spriteBatch.Draw(texture, instance.Destination, instance.TexturePart, instance.Color,
-                            instance.Rotation, instance.Center, SpriteEffects.None, 0);
+                            instance.Rotation, instance.Center, instance.Effects, 0);
                         /// 0,  new Vector2(instance.Destination.Width/2, instance.Destination.Height/2), SpriteEffects.None, 0);
                     }
 
@@ -194,7 +195,7 @@ namespace XenoCore.Engine.Services.Graphics
 
             commandList.Clear();
 
-           // device.Viewport = States[0].Viewport;
+            // device.Viewport = States[0].Viewport;
         }
     }
 }

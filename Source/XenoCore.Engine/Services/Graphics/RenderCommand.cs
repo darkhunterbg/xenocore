@@ -1,10 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace XenoCore.Engine.Services.Graphics
 {
@@ -14,9 +11,15 @@ namespace XenoCore.Engine.Services.Graphics
         public Rectangle Destination;
         public Rectangle TexturePart;
         public Vector2 Center;
+        public Vector2 TextScale;
         public Color Color;
         public String Text;
         public float Rotation;
+
+        public SpriteEffects Effects;
+
+        //No depth for now
+        //public float Depth;
     }
 
     [StructLayout(LayoutKind.Sequential)]
