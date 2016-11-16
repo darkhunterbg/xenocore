@@ -13,6 +13,8 @@ namespace XenoCore.Engine
     {
         private GraphicsDeviceManager graphics;
 
+        private GraphicsService graphicsService;
+
         public XenoCoreGame()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -28,13 +30,13 @@ namespace XenoCore.Engine
             graphics.ApplyChanges();
 
             IsMouseVisible = true;
-             
+
         }
-         
+
         protected override void LoadContent()
         {
             ServiceProvider.Add(new AssetsService(Content));
-            ServiceProvider.Add(new GraphicsService(GraphicsDevice, ServiceProvider.Get<AssetsService>()));
+            ServiceProvider.Add(graphicsService = new GraphicsService(GraphicsDevice, ServiceProvider.Get<AssetsService>()));
 
         }
         protected override void UnloadContent()
@@ -43,9 +45,25 @@ namespace XenoCore.Engine
             ServiceProvider.Dispose();
         }
 
+        protected override void Update(GameTime gameTime)
+        {
+            Texture t = graphicsService.ResourceCache.Textures.Get("earth");
+
+            RenderInstance instance = graphicsService.Renderer.NewTexture(t, 0, BlendingMode.Alpha, 0);
+
+            instance.Destination = new Rectangle(0, 0, 400, 300);
+            instance.Center = new Vector2(0, 0);
+            instance.TexturePart = new Rectangle(0, 0, 800, 600);
+            instance.Color = Color.White;
+            instance.Rotation = MathHelper.PiOver4;
+
+            base.Update(gameTime);
+        }
+
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            graphicsService.Renderer.Clear(Color.CornflowerBlue);
+            graphicsService.Renderer.ExecuteCommands();
 
             base.Draw(gameTime);
         }

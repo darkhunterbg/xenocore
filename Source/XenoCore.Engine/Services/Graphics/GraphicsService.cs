@@ -10,15 +10,19 @@ namespace XenoCore.Engine.Services.Graphics
 {
     public class GraphicsService
     {
-        public GraphicsResourceCache ResourceCache { get; private set; }
-
         private GraphicsDevice device;
+
+        public ResourceCache ResourceCache { get; private set; }
+        public Renderer Renderer { get; private set; }
 
         public GraphicsService(GraphicsDevice device, AssetsService assets)
         {
             this.device = device;
 
-            ResourceCache = new GraphicsResourceCache(device, assets);
+            ResourceCache = new ResourceCache(device, assets);
+            Renderer = new Renderer(device, ResourceCache);
+            
         }
+
     }
 }

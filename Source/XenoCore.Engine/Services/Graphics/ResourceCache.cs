@@ -43,7 +43,7 @@ namespace XenoCore.Engine.Services.Graphics
 
         public TId Add(TAsset resource, String resourceName)
         {
-            TId id = (TId)Activator.CreateInstance(typeof(TId),idCounter++);
+            TId id = (TId)Activator.CreateInstance(typeof(TId),++idCounter);
             ids.Add(resourceName, id);
             resources.Add(id, resource);
 
@@ -59,7 +59,7 @@ namespace XenoCore.Engine.Services.Graphics
     }
 
 
-    public class GraphicsResourceCache : IDisposable
+    public class ResourceCache : IDisposable
     {
         private AssetsService assets;
         private Texture2D white;
@@ -68,7 +68,7 @@ namespace XenoCore.Engine.Services.Graphics
 
         public const String White = "white";
 
-        internal GraphicsResourceCache(GraphicsDevice device, AssetsService assets)
+        internal ResourceCache(GraphicsDevice device, AssetsService assets)
         {
             this.assets = assets;
 
