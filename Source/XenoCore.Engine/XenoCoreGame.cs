@@ -30,7 +30,7 @@ namespace XenoCore.Engine
             IsMouseVisible = true;
              
         }
-
+         
         protected override void LoadContent()
         {
             ServiceProvider.Add(new AssetsService(Content));
