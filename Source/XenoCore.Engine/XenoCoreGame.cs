@@ -11,6 +11,7 @@ using XenoCore.Engine.Services.Assets;
 using XenoCore.Engine.Services.Audio;
 using XenoCore.Engine.Services.Graphics;
 using XenoCore.Engine.Services.Input;
+using XenoCore.Engine.Services.Screen;
 
 namespace XenoCore.Engine
 {
@@ -20,7 +21,7 @@ namespace XenoCore.Engine
         private GraphicsService graphicsService;
         private InputService inputService;
         private AudioService audioService;
-
+        private ScreenService screenService;
 
         public XenoCoreGame()
         {
@@ -46,9 +47,17 @@ namespace XenoCore.Engine
             ServiceProvider.Add(graphicsService = new GraphicsService(GraphicsDevice, ServiceProvider.Get<AssetsService>()));
             ServiceProvider.Add(inputService = new InputService(new GameTextInput(this)));
             ServiceProvider.Add(audioService = new AudioService(ServiceProvider.Get<AssetsService>()));
+            ServiceProvider.Add(screenService = new ScreenService());
 
-            //   Song song = ServiceProvider.Get<AssetsService>().Load<Song>("song");
-            //    ServiceProvider.Get<AudioService>().SongPlayer.Play(song);
+            screenService.PushScreen(new TestScreen());
+
+            //Song song = ServiceProvider.Get<AssetsService>().Load<Song>("song");
+            //ServiceProvider.Get<AudioService>().SongPlayer.Play(song);
+
+            //SoundEffect effect = ServiceProvider.Get<AssetsService>().Load<SoundEffect>("Blast");
+            //SoundEffectEntry entry = ServiceProvider.Get<AudioService>().NewEffect(effect);
+            //entry.Loop = true;
+            //entry.Play();
 
 
         }
@@ -64,55 +73,16 @@ namespace XenoCore.Engine
             audioService.Update(gameTime);
 
             inputService.Update(gameTime);
-            
-            inputService.State.UpdateInputText(sb);
 
-
-            if (inputService.State.CurrentInput.Keyboard.IsKeyDown(Keys.OemMinus))
-                ServiceProvider.Get<AudioService>().MasterChannel.Volume -= 0.01f;
-
-            if (inputService.State.CurrentInput.Keyboard.IsKeyDown(Keys.OemPlus))
-                ServiceProvider.Get<AudioService>().MasterChannel.Volume += 0.01f;
-
-            if (inputService.State.WasKeyPressed(Keys.Space))
-            {
-                SoundEffect effect = ServiceProvider.Get<AssetsService>().Load<SoundEffect>("Blast");
-                ServiceProvider.Get<AudioService>().NewEffect(effect).Play();
-            }
-
-            //Texture t = graphicsService.ResourceCache.Textures.Get("earth");
-
-            //RenderInstance instance = graphicsService.Renderer.NewTexture(t, 0, BlendingMode.Alpha, 0);
-
-            //instance.Destination = new Rectangle(0, 0, 400, 300);
-            //instance.Center = new Vector2(0, 0);
-            //instance.TexturePart = new Rectangle(0, 0, 800, 600);
-            //instance.Color = Color.White;
-            // instance.Rotation = MathHelper.PiOver4;
-
-            //t = graphicsService.ResourceCache.Textures.Get("earth2");
-            //instance = graphicsService.Renderer.NewTexture(t, 0, BlendingMode.Alpha, 0);
-
-            //instance.Destination = new Rectangle(100, 100, 400, 300);
-            //instance.Center = new Vector2(0, 0);
-            //instance.TexturePart = new Rectangle(0, 0, 800, 600);
-            //instance.Color = Color.Red;
-            //  instance.Rotation = MathHelper.PiOver4;
-
-            Font t = graphicsService.ResourceCache.Fonts.Get("default");
-
-            RenderInstance instance = graphicsService.Renderer.NewFont(t, 0, BlendingMode.Alpha, 0);
-
-            instance.Destination = new Rectangle(0, 0, 0, 0);
-            instance.Color = Color.White;
-            instance.TextScale = Vector2.One;
-            instance.Text = sb.ToString();
+            screenService.Update(gameTime);
 
             base.Update(gameTime);
         }
 
         protected override void Draw(GameTime gameTime)
         {
+            screenService.Draw(gameTime);
+
             graphicsService.Renderer.Clear(Color.CornflowerBlue);
             graphicsService.Renderer.ExecuteCommands();
 

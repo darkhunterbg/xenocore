@@ -18,11 +18,16 @@ namespace XenoCore.Engine.Services.Audio
 
         public AudioService(AssetsService assets)
         {
+            MasterChannel.Name = "System";
+
             this.assets = assets;
 
             SongPlayer = new SongPlayer(MasterChannel);
 
-            EffectChannel = new SoundEffectChannel(MasterChannel);
+            EffectChannel = new SoundEffectChannel(MasterChannel)
+            {
+                Name = "SFX"
+            };
         }
 
         public SoundEffectEntry NewEffect(SoundEffect effect)
@@ -47,19 +52,19 @@ namespace XenoCore.Engine.Services.Audio
 
         public void Update(GameTime time)
         {
-            //int count = effects.Count;
-            //for (int i = 0; i < count; ++i)
-            //{
-            //    SoundEffectInstance instance = effects[i];
-            //    if (instance.State == SoundState.Stopped)
-            //    {
-            //        instance.Dispose();
-            //        effects.RemoveAt(i);
-            //        EffectChannel.RemoveSound(instance);
-            //        --i;
-            //        --count;
-            //    }
-            //}
+            int count = effects.Count;
+            for (int i = 0; i < count; ++i)
+            {
+                SoundEffectEntry instance = effects[i];
+                if (instance.State == SoundState.Stopped && instance.DestroyOnStop)
+                {
+                    instance.Dispose();
+                    effects.RemoveAt(i);
+                    EffectChannel.RemoveSound(instance);
+                    --i;
+                    --count;
+                }
+            }
         }
     }
 }

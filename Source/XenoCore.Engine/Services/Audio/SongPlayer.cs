@@ -41,7 +41,10 @@ namespace XenoCore.Engine.Services.Audio
 
         public SongPlayer(AudioChannel parentChannel)
         {
-            Channel = new SongChannel(parentChannel);
+            Channel = new SongChannel(parentChannel)
+            {
+                Name = "Music"
+            };
         }
 
 

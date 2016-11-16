@@ -16,7 +16,7 @@ namespace XenoCore.Engine.Services.Assets
             this.assetsService = assets;
         }
 
-        public TId Get(String assetName )
+        public TId Get(String assetName)
         {
             TId id;
 
@@ -30,8 +30,9 @@ namespace XenoCore.Engine.Services.Assets
         }
         public TAsset GetResource(TId id)
         {
-            TAsset resource;
-            Debug.AssertDebug(resources.TryGetValue(id, out resource), "Invalid resource id!");
+            TAsset resource = default(TAsset);
+            bool get = resources.TryGetValue(id, out resource);
+            Debug.Assert(get, "Invalid resource id!");
             return resource;
         }
 

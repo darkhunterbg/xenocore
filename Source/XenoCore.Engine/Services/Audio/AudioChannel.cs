@@ -15,6 +15,8 @@ namespace XenoCore.Engine.Services.Audio
         private float scaleVolume  = 1.0f;
         private readonly List<AudioChannel> ChildrenChannels = new List<AudioChannel>();
 
+        public String Name { get; set; }
+
         public float TotalVolume { get { return scaleVolume * Volume; } }
 
         public float Volume

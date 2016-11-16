@@ -45,6 +45,7 @@ namespace XenoCore.Engine.Services.Audio
         {
             get { return instance.State; }
         }
+        public bool DestroyOnStop { get; set; }
 
         public SoundEffect Effect { get; private set; }
 
