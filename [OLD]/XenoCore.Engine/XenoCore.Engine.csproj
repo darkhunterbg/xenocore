@@ -1,0 +1,177 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <MinimumVisualStudioVersion>10.0</MinimumVisualStudioVersion>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{930BA5ED-74D3-411E-B1A9-AB2519E73EFB}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>XenoCore.Engine</RootNamespace>
+    <AssemblyName>XenoCore.Engine</AssemblyName>
+    <DefaultLanguage>en-US</DefaultLanguage>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <TargetFrameworkProfile>Profile151</TargetFrameworkProfile>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;DEV</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Development|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE;DEV</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <RunCodeAnalysis>false</RunCodeAnalysis>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>
+    </DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+  </PropertyGroup>
+  <ItemGroup>
+    <!-- A reference to the entire .NET Framework is automatically included -->
+    <None Include="project.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="CircleF.cs" />
+    <Compile Include="Editor\Attributes.cs" />
+    <Compile Include="Entities\Entity.cs" />
+    <Compile Include="Entities\ComponentSystem.cs" />
+    <Compile Include="Events\Event.cs" />
+    <Compile Include="Events\EventRecieverData.cs" />
+    <Compile Include="Events\EventSystem.cs" />
+    <Compile Include="Extensions.cs" />
+    <Compile Include="Graphics\GraphicsRendererExtender.cs" />
+    <Compile Include="GUI\Controls\Button.cs" />
+    <Compile Include="GUI\Controls\CameraDisplay.cs" />
+    <Compile Include="GUI\ControlState.cs" />
+    <Compile Include="GUI\Containers\GridContainer.cs" />
+    <Compile Include="GUI\Controls\GUIControl.cs" />
+    <Compile Include="GUI\GUIEvent.cs" />
+    <Compile Include="GUI\GUISystem.cs" />
+    <Compile Include="GUI\GUIThreadData.cs" />
+    <Compile Include="GUI\Controls\ImageBox.cs" />
+    <Compile Include="GUI\Controls\Label.cs" />
+    <Compile Include="GUI\Containers\AbsoluteContainer.cs" />
+    <Compile Include="GUI\Controls\Spacer.cs" />
+    <Compile Include="GUI\Containers\StackContainer.cs" />
+    <Compile Include="Input\Mouse.cs" />
+    <Compile Include="Particles\Modules\AccelerationModule.cs" />
+    <Compile Include="Particles\Modules\ColorModule.cs" />
+    <Compile Include="Particles\Modules\LifetimeModule.cs" />
+    <Compile Include="Particles\Particle.cs" />
+    <Compile Include="Particles\ParticleComponent.cs" />
+    <Compile Include="Particles\ParticleEffect.cs" />
+    <Compile Include="Particles\ParticleEmitter.cs" />
+    <Compile Include="Particles\Modules\ParticleModule.cs" />
+    <Compile Include="Particles\ParticleSystem.cs" />
+    <Compile Include="Particles\ParticleThreadData.cs" />
+    <Compile Include="Particles\Modules\RotationModule.cs" />
+    <Compile Include="Particles\Modules\SizeModule.cs" />
+    <Compile Include="Particles\Modules\SpawnModule.cs" />
+    <Compile Include="Particles\Modules\VelocityModule.cs" />
+    <Compile Include="Physics\CollisionComponent.cs" />
+    <Compile Include="Physics\CollisionData.cs" />
+    <Compile Include="Physics\CollisionGroup.cs" />
+    <Compile Include="Physics\DynamicComponent.cs" />
+    <Compile Include="Physics\Events.cs" />
+    <Compile Include="Physics\PhysicsDebugger.cs" />
+    <Compile Include="Physics\PhysicsSystem.cs" />
+    <Compile Include="Physics\PhysicsThreadData.cs" />
+    <Compile Include="Physics\Shape.cs" />
+    <Compile Include="Physics\SweptTest.cs" />
+    <Compile Include="RectangleF.cs" />
+    <Compile Include="Resources\DummyServiceProvider.cs" />
+    <Compile Include="Resources\Json.cs" />
+    <Compile Include="Resources\ParticleEffectReader.cs" />
+    <Compile Include="Resources\XenoCoreContentManager.cs" />
+    <Compile Include="SystemProvider.cs" />
+    <Compile Include="Screens\WorldScreen.cs" />
+    <Compile Include="Scripting\Script.cs" />
+    <Compile Include="Scripting\ScriptAttributes.cs" />
+    <Compile Include="Scripting\ScriptDescription.cs" />
+    <Compile Include="Scripting\ScriptingSystem.cs" />
+    <Compile Include="Scripting\Timer.cs" />
+    <Compile Include="Scripting\TimerEvent.cs" />
+    <Compile Include="Scripting\TimingComponent.cs" />
+    <Compile Include="Scripting\TimingSystem.cs" />
+    <Compile Include="Scripting\Trigger.cs" />
+    <Compile Include="Threading\JobServiceExtender.cs" />
+    <Compile Include="Threading\PerThreadData.cs" />
+    <Compile Include="Utilities\BinaryTree.cs" />
+    <Compile Include="Utilities\Random.cs" />
+    <Compile Include="World\Camera.cs" />
+    <Compile Include="Console\ConsoleAutoRegister.cs" />
+    <Compile Include="Entities\Component.cs" />
+    <Compile Include="Entities\EntitySystem.cs" />
+    <Compile Include="Game\XenoCoreGame.cs" />
+    <Compile Include="CompilerSettings.cs" />
+    <Compile Include="Console\ConsoleAction.cs" />
+    <Compile Include="Console\ConsoleAttributes.cs" />
+    <Compile Include="Console\ConsoleInput.cs" />
+    <Compile Include="Console\ConsoleService.cs" />
+    <Compile Include="Console\DefaultCompleters.cs" />
+    <Compile Include="Debug.cs" />
+    <Compile Include="Game\GraphicsDeviceManagerCommands.cs" />
+    <Compile Include="Game\XenoCoreGameCommands.cs" />
+    <Compile Include="Graphics\GraphicsRenderer.cs" />
+    <Compile Include="Graphics\GraphicsResource.cs" />
+    <Compile Include="Graphics\GraphicsResourceStorage.cs" />
+    <Compile Include="Graphics\GraphicsService.cs" />
+    <Compile Include="Graphics\RenderCommand.cs" />
+    <Compile Include="Input\DummyTextInputProvider.cs" />
+    <Compile Include="Input\EventTextInputProvider.cs" />
+    <Compile Include="Input\InputData.cs" />
+    <Compile Include="Input\InputService.cs" />
+    <Compile Include="Input\ITextInputProvider.cs" />
+    <Compile Include="Logging\DummyLoggerProvider.cs" />
+    <Compile Include="Logging\ILoggerProvider.cs" />
+    <Compile Include="Logging\LoggingService.cs" />
+    <Compile Include="Profiling\FPSViewer.cs" />
+    <Compile Include="Profiling\GameProfiler.cs" />
+    <Compile Include="Profiling\IProfilerViewer.cs" />
+    <Compile Include="Profiling\JobsViewer.cs" />
+    <Compile Include="Profiling\ProfilerData.cs" />
+    <Compile Include="Profiling\ProfilerRenderer.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Resources\ResourcesService.cs" />
+    <Compile Include="Screens\Screen.cs" />
+    <Compile Include="Screens\ScreenService.cs" />
+    <Compile Include="Screens\TestScreen.cs" />
+    <Compile Include="Services.cs" />
+    <Compile Include="Threading\DummyThreadProvider.cs" />
+    <Compile Include="Threading\IThreadProvider.cs" />
+    <Compile Include="Threading\Job.cs" />
+    <Compile Include="Threading\JobService.cs" />
+    <Compile Include="Threading\Thread.cs" />
+    <Compile Include="Utilities\ListArray.cs" />
+    <Compile Include="World\CameraSystem.cs" />
+    <Compile Include="World\WorldComponent.cs" />
+    <Compile Include="World\WorldSystem.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

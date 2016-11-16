@@ -1,0 +1,85 @@
+﻿<Window x:Class="XenoCore.Builder.GUI.ParticleEffectWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:XenoCore.Builder.GUI"
+        xmlns:h="clr-namespace:XenoCore.Builder.Host"
+        xmlns:vm="clr-namespace:XenoCore.Builder.MVVM"
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+        mc:Ignorable="d"
+         WindowStartupLocation="CenterOwner"
+        Title="{Binding Path=Title}" Width="1024" Height="600" MinWidth="640" MinHeight="480" >
+    <Window.DataContext>
+        <vm:ParticleEditorViewModel/>
+    </Window.DataContext>
+    <Window.Resources>
+        <BooleanToVisibilityConverter x:Key="BoolToVis" />
+    </Window.Resources>
+
+    <Grid Background="DarkGray">
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="300"/>
+            <ColumnDefinition Width="5" />
+            <ColumnDefinition Width="*"/>
+            <!--<ColumnDefinition Width="5" />
+            <ColumnDefinition Width="70" />-->
+        </Grid.ColumnDefinitions>
+
+        <WindowsFormsHost Grid.Column="2" Grid.RowSpan="2"  Background="Black">
+            <h:ScreenHostControl x:Name="host" />
+        </WindowsFormsHost>
+
+        <GridSplitter  Grid.Column="1"  Width="5" HorizontalAlignment="Stretch"  />
+        <ScrollViewer VerticalScrollBarVisibility="Auto">
+            <StackPanel  Name="spEffect" Orientation="Vertical"  Margin="8"  >
+
+                <TextBlock Margin="8" HorizontalAlignment="Center" FontSize="14"> Effect</TextBlock>
+                <DockPanel >
+
+                    <TextBlock Margin="0,0,8,0">Name</TextBlock>
+                    <TextBox Text="{Binding EffectName}"></TextBox>
+                </DockPanel>
+                <DockPanel Margin="0,8,0,0">
+                    <TextBlock Margin="0,0,8,0">Emitter</TextBlock>
+                    <ComboBox Name="cbEmitters" ItemsSource="{Binding EditingEffect.Emitters}" SelectedItem="{Binding EditingEmitter}"
+                          DisplayMemberPath="Name.Value" />
+                </DockPanel>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" >
+                    <Button Name="btnAddEmitter" Width="100" Height="20" Margin="8"
+                            Click="btnAddEmitter_Click">Add Emitter</Button>
+                    <Button Name="btnRemoveEmitter" Width="100"  Margin="8" IsEnabled="{Binding CanRemoveEmitter}"
+                         Click="btnRemoveEmitter_Click">Remove Emitter</Button>
+                </StackPanel>
+                <TextBlock Margin="8"  HorizontalAlignment="Center" FontSize="14" 
+                       Visibility="{Binding Path=EmitterSelected, Converter={StaticResource BoolToVis}}" >Emitter</TextBlock>
+
+                <StackPanel Orientation="Vertical" Name="spEmitter"
+                         Visibility="{Binding Path=EmitterSelected, Converter={StaticResource BoolToVis}}" >
+                    <StackPanel Orientation="Vertical" Name="spEmitterSettings" />
+
+
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" >
+                        <Button Name="btnAddModule" Width="100" Height="20" Margin="8"
+                            Click="btnAddModule_Click">Add Module</Button>
+                        <Button Name="btnRemoveModule" Width="100"  Margin="8" IsEnabled="{Binding CanRemoveModule}"
+                         Click="btnRemoveModule_Click"    >Remove Module</Button>
+                    </StackPanel>
+                    <TextBlock Margin="8" HorizontalAlignment="Center" FontSize="14" Text="{Binding EditingModule}"></TextBlock>
+
+
+                    <StackPanel  Orientation="Vertical" Name="spModuleSettings" />
+
+                </StackPanel>
+
+            </StackPanel>
+        </ScrollViewer>
+        <!--<GridSplitter  Grid.Column="3"  Width="5" HorizontalAlignment="Stretch"  />
+
+        <StackPanel Grid.Column="4" Orientation="Vertical" Margin="4">
+            <StackPanel Orientation="Horizontal" >
+            </StackPanel>
+        </StackPanel>-->
+    </Grid>
+</Window>
