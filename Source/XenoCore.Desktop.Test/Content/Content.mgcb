@@ -43,3 +43,15 @@
 /processorParam:TextureFormat=Color
 /build:earth2.jpg
 
+#begin song.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:song.mp3
+
+#begin Blast.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Blast.wav
+

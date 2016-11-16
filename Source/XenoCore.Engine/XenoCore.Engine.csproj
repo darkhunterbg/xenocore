@@ -58,10 +58,14 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ServiceProvider.cs" />
     <Compile Include="Services\Assets\AssetsService.cs" />
+    <Compile Include="Services\Assets\AssetStorage.cs" />
+    <Compile Include="Services\Audio\AudioService.cs" />
+    <Compile Include="Services\Audio\AudioChannel.cs" />
+    <Compile Include="Services\Audio\SongPlayer.cs" />
     <Compile Include="Services\Graphics\RenderCommand.cs" />
     <Compile Include="Services\Graphics\Renderer.cs" />
     <Compile Include="Services\Graphics\RenderState.cs" />
-    <Compile Include="Services\Graphics\Resource.cs" />
+    <Compile Include="Services\Graphics\GraphicsResources.cs" />
     <Compile Include="Services\Graphics\ResourceCache.cs" />
     <Compile Include="Services\Graphics\GraphicsService.cs" />
     <Compile Include="Services\Input\GameTextInput.cs" />
@@ -81,6 +85,7 @@
   <ItemGroup>
     <None Include="project.json" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

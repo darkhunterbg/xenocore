@@ -1,20 +1,25 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
+using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Media;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using XenoCore.Engine.Services.Assets;
+using XenoCore.Engine.Services.Audio;
 using XenoCore.Engine.Services.Graphics;
 using XenoCore.Engine.Services.Input;
 
 namespace XenoCore.Engine
 {
-    public class XenoCoreGame : Game 
+    public class XenoCoreGame : Game
     {
         private GraphicsDeviceManager graphics;
         private GraphicsService graphicsService;
         private InputService inputService;
+        private AudioService audioService;
 
 
         public XenoCoreGame()
@@ -39,7 +44,13 @@ namespace XenoCore.Engine
         {
             ServiceProvider.Add(new AssetsService(Content));
             ServiceProvider.Add(graphicsService = new GraphicsService(GraphicsDevice, ServiceProvider.Get<AssetsService>()));
-            ServiceProvider.Add(inputService =new InputService(new GameTextInput(this)));
+            ServiceProvider.Add(inputService = new InputService(new GameTextInput(this)));
+            ServiceProvider.Add(audioService = new AudioService(ServiceProvider.Get<AssetsService>()));
+
+            //   Song song = ServiceProvider.Get<AssetsService>().Load<Song>("song");
+            //    ServiceProvider.Get<AudioService>().SongPlayer.Play(song);
+
+
         }
         protected override void UnloadContent()
         {
@@ -50,10 +61,24 @@ namespace XenoCore.Engine
 
         protected override void Update(GameTime gameTime)
         {
-            inputService.Update(gameTime);
+            audioService.Update(gameTime);
 
+            inputService.Update(gameTime);
+            
             inputService.State.UpdateInputText(sb);
-               
+
+
+            if (inputService.State.CurrentInput.Keyboard.IsKeyDown(Keys.OemMinus))
+                ServiceProvider.Get<AudioService>().MasterChannel.Volume -= 0.01f;
+
+            if (inputService.State.CurrentInput.Keyboard.IsKeyDown(Keys.OemPlus))
+                ServiceProvider.Get<AudioService>().MasterChannel.Volume += 0.01f;
+
+            if (inputService.State.WasKeyPressed(Keys.Space))
+            {
+                SoundEffect effect = ServiceProvider.Get<AssetsService>().Load<SoundEffect>("Blast");
+                ServiceProvider.Get<AudioService>().PlayEffect(effect);
+            }
 
             //Texture t = graphicsService.ResourceCache.Textures.Get("earth");
 
