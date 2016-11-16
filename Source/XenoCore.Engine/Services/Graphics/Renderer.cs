@@ -79,7 +79,10 @@ namespace XenoCore.Engine.Services.Graphics
         {
             return NewInstance(texture.id, layer, blending, false, stateID);
         }
-
+        public RenderInstance NewFont(Font font, byte layer, BlendingMode blending, int stateID)
+        {
+            return NewInstance(font.id, layer, blending, true, stateID);
+        }
 
         private RenderCommand GetCommand(UInt32 key)
         {
@@ -155,21 +158,21 @@ namespace XenoCore.Engine.Services.Graphics
 
                 spriteBatch.Begin(SpriteSortMode.Deferred, blendState, null, null, null, null, state.TransformMatrix);
 
-               // device.Viewport = state.Viewport;
+                // device.Viewport = state.Viewport;
 
-                //if (data.IsSpriteFont)
-                //{
-                //    int id = ((int)(command.Key & TEXTURE_MASK) >> TEXTURE_BIT_OFFSET) - SPRITE_FONT_OFFSET;
-                //    SpriteFont font = resourceCache[new Font() { id = id }];
+                if (data.IsSpriteFont)
+                {
+                    int id = ((int)(command.Key & TEXTURE_MASK) >> TEXTURE_BIT_OFFSET) - SPRITE_FONT_OFFSET;
+                    SpriteFont font = resourceCache[new Font(id)];
 
-                //    for (int j = 0; j < data.Instances.Count; ++j)
-                //    {
-                //        var instance = data.Instances[j];
-                //        //Hack it for now
-                //        spriteBatch.DrawString(font, instance.Text, new Vector2(instance.Destination.X, instance.Destination.Y), instance.Color);
-                //    }
-                //}
-                //else
+                    for (int j = 0; j < data.Instances.Count; ++j)
+                    {
+                        var instance = data.Instances[j];
+                        //Hack it for now
+                        spriteBatch.DrawString(font, instance.Text, new Vector2(instance.Destination.X, instance.Destination.Y), instance.Color);
+                    }
+                }
+                else
                 {
                     int id = (int)(command.Key & TEXTURE_MASK) >> TEXTURE_BIT_OFFSET;
                     Texture2D texture = resourceCache[new Texture(id)];

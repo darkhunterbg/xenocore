@@ -47,15 +47,26 @@ namespace XenoCore.Engine
 
         protected override void Update(GameTime gameTime)
         {
-            Texture t = graphicsService.ResourceCache.Textures.Get("earth");
+            //Texture t = graphicsService.ResourceCache.Textures.Get("earth");
 
-            RenderInstance instance = graphicsService.Renderer.NewTexture(t, 0, BlendingMode.Alpha, 0);
+            //RenderInstance instance = graphicsService.Renderer.NewTexture(t, 0, BlendingMode.Alpha, 0);
+
+            //instance.Destination = new Rectangle(0, 0, 400, 300);
+            //instance.Center = new Vector2(0, 0);
+            //instance.TexturePart = new Rectangle(0, 0, 800, 600);
+            //instance.Color = Color.White;
+            //instance.Rotation = MathHelper.PiOver4;
+
+            Font t = graphicsService.ResourceCache.Fonts.Get("default");
+
+            RenderInstance instance = graphicsService.Renderer.NewFont(t, 0, BlendingMode.Alpha, 0);
 
             instance.Destination = new Rectangle(0, 0, 400, 300);
             instance.Center = new Vector2(0, 0);
             instance.TexturePart = new Rectangle(0, 0, 800, 600);
             instance.Color = Color.White;
             instance.Rotation = MathHelper.PiOver4;
+            instance.Text = "WTF TEXT";
 
             base.Update(gameTime);
         }

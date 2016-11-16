@@ -65,14 +65,17 @@ namespace XenoCore.Engine.Services.Graphics
         private Texture2D white;
 
         public ResourceStorage<Texture, Texture2D> Textures { get; private set; }
+        public ResourceStorage<Font,SpriteFont> Fonts { get; private set; }
 
         public const String White = "white";
+        public const String Default = "default";
 
         internal ResourceCache(GraphicsDevice device, AssetsService assets)
         {
             this.assets = assets;
 
             Textures = new ResourceStorage<Texture, Texture2D>(assets);
+            Fonts = new ResourceStorage<Font, SpriteFont>(assets);
 
             white = new Texture2D(device, 1, 1);
             white.SetData(new Color[] { Color.White });
@@ -85,10 +88,15 @@ namespace XenoCore.Engine.Services.Graphics
         {
             get { return Textures.GetResource(id); }
         }
+        public SpriteFont this[Font id]
+        {
+            get { return Fonts.GetResource(id); }
+        }
 
         public void Dispose()
         {
             Textures.Clear();
+            Fonts.Clear();
 
             white.Dispose();
         }

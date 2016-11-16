@@ -25,3 +25,9 @@
 /processorParam:TextureFormat=Color
 /build:earth.jpg
 
+#begin default.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:TextureFormat=Compressed
+/build:default.spritefont
+

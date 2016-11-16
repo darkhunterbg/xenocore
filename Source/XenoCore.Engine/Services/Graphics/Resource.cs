@@ -16,4 +16,20 @@
       
     }
 
+    public struct Font
+    {
+        internal int id;
+
+        public bool IsEmpty
+        {
+            get { return id == 0; }
+        }
+
+        public Font(int id)
+        {
+            this.id = id;
+        }
+
+    }
+
 }
