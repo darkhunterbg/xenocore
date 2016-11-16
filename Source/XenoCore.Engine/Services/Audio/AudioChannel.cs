@@ -69,27 +69,26 @@ namespace XenoCore.Engine.Services.Audio
 
     public class SoundEffectChannel : AudioChannel
     {
-        private List<SoundEffectInstance> sounds = new List<SoundEffectInstance>();
+        private List<SoundEffectEntry> sounds = new List<SoundEffectEntry>();
 
         public SoundEffectChannel(AudioChannel parent = null)
             : base(parent)
         {
         }
 
-        internal void AddSound(SoundEffectInstance instance)
+        internal void AddSound(SoundEffectEntry instance)
         {
             sounds.Add(instance);
-            instance.Volume = TotalVolume;
         }
-        internal void RemoveSound(SoundEffectInstance instance)
+        internal void RemoveSound(SoundEffectEntry instance)
         {
             sounds.Remove(instance);
         }
 
         protected override void OnVolumeChanged()
         {
-            foreach (SoundEffectInstance instance in sounds)
-                instance.Volume = TotalVolume;
+            foreach (SoundEffectEntry instance in sounds)
+                instance.UpdateVolume();
             base.OnVolumeChanged();
         }
     }

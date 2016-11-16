@@ -62,6 +62,7 @@
     <Compile Include="Services\Audio\AudioService.cs" />
     <Compile Include="Services\Audio\AudioChannel.cs" />
     <Compile Include="Services\Audio\SongPlayer.cs" />
+    <Compile Include="Services\Audio\SoundEffectEntry.cs" />
     <Compile Include="Services\Graphics\RenderCommand.cs" />
     <Compile Include="Services\Graphics\Renderer.cs" />
     <Compile Include="Services\Graphics\RenderState.cs" />

@@ -77,7 +77,7 @@ namespace XenoCore.Engine
             if (inputService.State.WasKeyPressed(Keys.Space))
             {
                 SoundEffect effect = ServiceProvider.Get<AssetsService>().Load<SoundEffect>("Blast");
-                ServiceProvider.Get<AudioService>().PlayEffect(effect);
+                ServiceProvider.Get<AudioService>().NewEffect(effect).Play();
             }
 
             //Texture t = graphicsService.ResourceCache.Textures.Get("earth");

@@ -14,7 +14,7 @@ namespace XenoCore.Engine.Services.Audio
         public AudioChannel MasterChannel { get; private set; } = new AudioChannel();
         public SoundEffectChannel EffectChannel { get; private set; }
 
-        private List<SoundEffectInstance> effects = new List<SoundEffectInstance>();
+        private ListArray<SoundEffectEntry> effects = new ListArray<SoundEffectEntry>(1024);
 
         public AudioService(AssetsService assets)
         {
@@ -25,20 +25,19 @@ namespace XenoCore.Engine.Services.Audio
             EffectChannel = new SoundEffectChannel(MasterChannel);
         }
 
-        public void PlayEffect(SoundEffect effect)
+        public SoundEffectEntry NewEffect(SoundEffect effect)
         {
-            var instance = effect.CreateInstance();
-            effects.Add(instance);
-            EffectChannel.AddSound(instance);
-            instance.Play();
+            SoundEffectEntry e = effects.New();
+            e.LoadEffect(effect, EffectChannel);
+            return e;
         }
 
         public void Dispose()
         {
-            foreach (SoundEffectInstance instance in effects)
+            foreach (SoundEffectEntry effect in effects)
             {
-                instance.Stop();
-                instance.Dispose();
+                effect.Stop();
+                effect.Dispose();
             }
 
             effects.Clear();
@@ -48,19 +47,19 @@ namespace XenoCore.Engine.Services.Audio
 
         public void Update(GameTime time)
         {
-            int count = effects.Count;
-            for (int i = 0; i < count; ++i)
-            {
-                SoundEffectInstance instance = effects[i];
-                if (instance.State == SoundState.Stopped)
-                {
-                    instance.Dispose();
-                    effects.RemoveAt(i);
-                    EffectChannel.RemoveSound(instance);
-                    --i;
-                    --count;
-                }
-            }
+            //int count = effects.Count;
+            //for (int i = 0; i < count; ++i)
+            //{
+            //    SoundEffectInstance instance = effects[i];
+            //    if (instance.State == SoundState.Stopped)
+            //    {
+            //        instance.Dispose();
+            //        effects.RemoveAt(i);
+            //        EffectChannel.RemoveSound(instance);
+            //        --i;
+            //        --count;
+            //    }
+            //}
         }
     }
 }
