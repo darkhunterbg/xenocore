@@ -28,7 +28,7 @@ namespace XenoCore.Engine
             graphics.ApplyChanges();
 
             IsMouseVisible = true;
-
+             
         }
 
         protected override void LoadContent()
