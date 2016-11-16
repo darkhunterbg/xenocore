@@ -1,4 +1,5 @@
 ﻿using System;
+using XenoCore.Engine;
 
 namespace XenoCore.Desktop.Test
 {
@@ -13,7 +14,7 @@ namespace XenoCore.Desktop.Test
         [STAThread]
         static void Main()
         {
-            using (var game = new Game1())
+            using (var game = new XenoCoreGame())
                 game.Run();
         }
     }
