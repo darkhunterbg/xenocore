@@ -68,9 +68,9 @@ namespace XenoCore.Engine.Systems.Rendering
             {
                 RenderingComponent component = textureComponents[i];
 
-                if (!component.IsVisible)
+                if (!component.IsVisible || component.IsCulled)
                     continue;
-           
+
                 Entity entity = component.Entity;
                 RenderInstance instance = null;
 
@@ -79,14 +79,14 @@ namespace XenoCore.Engine.Systems.Rendering
                     SpriteFont font = GraphicsService.ResourceCache[component.Font];
                     Vector2 size = font.MeasureString(component.Text);
 
-                    instance = GraphicsService.Renderer.NewFont(component.Font, 0, component.Blending, 0);
-                    instance.TextScale = component.Scale;
+                    //TODO : State
+                    instance = GraphicsService.Renderer.NewFont(component.Font, component.Layer, component.Blending, 1);
+                    instance.TextScale = component.Size / size;
                     instance.Text = component.Text;
                     instance.Center = size / 2.0f;
                 }
                 else
                 {
-
                     if (!component.TexturePart.HasValue)
                     {
                         Texture2D texture = GraphicsService.ResourceCache[component.Texture];
@@ -95,11 +95,11 @@ namespace XenoCore.Engine.Systems.Rendering
 
                     Rectangle texturePart = component.TexturePart.Value;
 
-                    instance = GraphicsService.Renderer.NewTexture(component.Texture, 0, component.Blending, 0);
+                    instance = GraphicsService.Renderer.NewTexture(component.Texture, component.Layer, component.Blending,1);
 
-                    instance.Destination.Width = (int)component.Scale.X * texturePart.Width;
-                    instance.Destination.Height = (int)component.Scale.Y * texturePart.Height;
-                  
+                    instance.Destination.Width = (int)component.Size.X;
+                    instance.Destination.Height = (int)component.Size.Y;
+
                     instance.TexturePart = texturePart;
                     instance.Center = new Vector2(texturePart.Width / 2, texturePart.Height / 2);
                 }

@@ -15,6 +15,7 @@ namespace XenoCore.Engine.Systems.World
         public Vector2 Position;
         public Vector2 BaseSize;
         public Vector2 Scale = Vector2.One;
+        public float Rotation;
 
         public Vector2 ActualSize
         {
@@ -25,6 +26,7 @@ namespace XenoCore.Engine.Systems.World
         {
             Position = BaseSize = Vector2.Zero;
             Scale = Vector2.One;
+            Rotation = 0;
         }
     }
 }

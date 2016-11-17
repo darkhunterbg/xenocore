@@ -14,7 +14,7 @@ namespace XenoCore.Engine.Systems.Rendering
     public class RenderingComponent : Component
     {
         public Vector2 Position;
-        public Vector2 Scale;
+        public Vector2 Size;
         public Rectangle? TexturePart;
         public String Text;
 
@@ -25,9 +25,12 @@ namespace XenoCore.Engine.Systems.Rendering
         public bool FlipX;
         public bool FlipY;
         public bool IsVisible;
+        public bool IsCulled;
 
         public Texture Texture;
         public Font Font;
+
+        public byte Layer;
 
         public bool IsFont
         {
@@ -41,13 +44,14 @@ namespace XenoCore.Engine.Systems.Rendering
             Text = null;
             TexturePart = null;
             Color = Color.White;
-            Position = Vector2.Zero;
-            Scale = Vector2.One;
+            Size = Position = Vector2.Zero;
             Rotation = 0;
             Blending = BlendingMode.Alpha;
             FlipX = FlipY = false;
             IsVisible = true;
             Text = String.Empty;
+            Layer = 0;
+            IsCulled = false;
         }
     }
 

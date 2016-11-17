@@ -84,10 +84,12 @@
     <Compile Include="Systems\Entities\EntitySystem.cs" />
     <Compile Include="Systems\Rendering\RenderingComponent.cs" />
     <Compile Include="Systems\Rendering\RenderingSystem.cs" />
+    <Compile Include="Systems\World\CameraSystem.cs" />
     <Compile Include="Systems\World\WorldComponent.cs" />
     <Compile Include="Systems\World\WorldSystem.cs" />
     <Compile Include="Utilities\Debug.cs" />
     <Compile Include="Utilities\ListArray.cs" />
+    <Compile Include="Utilities\RectangleF.cs" />
     <Compile Include="XenoCoreGame.cs" />
   </ItemGroup>
   <ItemGroup>

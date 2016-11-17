@@ -39,10 +39,6 @@ namespace XenoCore.Engine
 
             IsMouseVisible = true;
 
-        }
-
-        protected override void LoadContent()
-        {
             ServiceProvider.Add(new AssetsService(Content));
             ServiceProvider.Add(graphicsService = new GraphicsService(GraphicsDevice, ServiceProvider.Get<AssetsService>()));
             ServiceProvider.Add(inputService = new InputService(new GameTextInput(this)));
@@ -51,13 +47,10 @@ namespace XenoCore.Engine
 
             screenService.PushScreen(new TestScreen());
 
-            //Song song = ServiceProvider.Get<AssetsService>().Load<Song>("song");
-            //ServiceProvider.Get<AudioService>().SongPlayer.Play(song);
+        }
 
-            //SoundEffect effect = ServiceProvider.Get<AssetsService>().Load<SoundEffect>("Blast");
-            //SoundEffectEntry entry = ServiceProvider.Get<AudioService>().NewEffect(effect);
-            //entry.Loop = true;
-            //entry.Play();
+        protected override void LoadContent()
+        {
 
 
         }
@@ -82,7 +75,6 @@ namespace XenoCore.Engine
         protected override void Draw(GameTime gameTime)
         {
             screenService.Draw(gameTime);
-
             graphicsService.Renderer.Clear(Color.CornflowerBlue);
             graphicsService.Renderer.ExecuteCommands();
 
