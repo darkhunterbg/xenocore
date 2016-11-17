@@ -78,6 +78,9 @@
     <Compile Include="Services\Screen\ScreenService.cs" />
     <Compile Include="Services\Screen\TestScreen.cs" />
     <Compile Include="SystemProvider.cs" />
+    <Compile Include="Systems\Animation\AnimationComponent.cs" />
+    <Compile Include="Systems\Animation\AnimationSystem.cs" />
+    <Compile Include="Systems\Animation\SpriteAnimation.cs" />
     <Compile Include="Systems\Entities\Component.cs" />
     <Compile Include="Systems\Entities\ComponentSystem.cs" />
     <Compile Include="Systems\Entities\Entity.cs" />

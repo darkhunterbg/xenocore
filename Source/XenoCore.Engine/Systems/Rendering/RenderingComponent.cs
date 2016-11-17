@@ -36,6 +36,10 @@ namespace XenoCore.Engine.Systems.Rendering
         {
             get { return !Font.IsEmpty; }
         }
+        public bool ShouldBeRendered
+        {
+            get { return IsVisible && !IsCulled; }
+        }
 
         internal void Reset()
         {

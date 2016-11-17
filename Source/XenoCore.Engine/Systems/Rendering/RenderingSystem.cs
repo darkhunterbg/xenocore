@@ -15,7 +15,7 @@ namespace XenoCore.Engine.Systems.Rendering
     {
         private readonly GraphicsService GraphicsService;
 
-        private ComponentContainer<RenderingComponent> textureComponents;
+        private ComponentContainer<RenderingComponent> renderingComponents;
 
         public int DrawOrder
         {
@@ -35,12 +35,12 @@ namespace XenoCore.Engine.Systems.Rendering
             : base(es)
         {
             GraphicsService = ServiceProvider.Get<GraphicsService>();
-            textureComponents = new ComponentContainer<RenderingComponent>(es.MaxEntites);
+            renderingComponents = new ComponentContainer<RenderingComponent>(es.MaxEntites);
         }
 
         public RenderingComponent AddComponent(Entity entity)
         {
-            var component = textureComponents.New(entity);
+            var component = renderingComponents.New(entity);
             component.Reset();
             EntitySystem.RegisterComponentForEntity(this, component, entity);
 
@@ -48,27 +48,26 @@ namespace XenoCore.Engine.Systems.Rendering
         }
         public void RemoveComponent(Entity entity)
         {
-            var component = textureComponents.Remove(entity);
+            var component = renderingComponents.Remove(entity);
             EntitySystem.UnregisterComponentForEntity(this, component, entity);
         }
         public RenderingComponent GetComponent(Entity entity)
         {
-            return textureComponents.TryGet(entity);
+            return renderingComponents.TryGet(entity);
         }
         public override void OnEntityDestroyed(Component systemComponent)
         {
-            if (systemComponent is RenderingComponent)
-                textureComponents.Remove(systemComponent as RenderingComponent);
+            renderingComponents.Remove(systemComponent as RenderingComponent);
         }
 
         public void Draw(DrawState state)
         {
-            int count = textureComponents.Count;
+            int count = renderingComponents.Count;
             for (int i = 0; i < count; ++i)
             {
-                RenderingComponent component = textureComponents[i];
+                RenderingComponent component = renderingComponents[i];
 
-                if (!component.IsVisible || component.IsCulled)
+                if (!component.ShouldBeRendered)
                     continue;
 
                 Entity entity = component.Entity;
@@ -95,7 +94,7 @@ namespace XenoCore.Engine.Systems.Rendering
 
                     Rectangle texturePart = component.TexturePart.Value;
 
-                    instance = GraphicsService.Renderer.NewTexture(component.Texture, component.Layer, component.Blending,1);
+                    instance = GraphicsService.Renderer.NewTexture(component.Texture, component.Layer, component.Blending, 1);
 
                     instance.Destination.Width = (int)component.Size.X;
                     instance.Destination.Height = (int)component.Size.Y;

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using XenoCore.Engine.Services.Graphics;
+using XenoCore.Engine.Systems.Animation;
 using XenoCore.Engine.Systems.Entities;
 using XenoCore.Engine.Systems.Rendering;
 using XenoCore.Engine.Systems.World;
@@ -17,6 +18,9 @@ namespace XenoCore.Engine.Services.Screen
         public RenderingSystem RenderingSystem { get; private set; }
         public WorldSystem WorldSystem { get; private set; }
         public CameraSystem CameraSystem { get; private set; }
+        public AnimationSystem AnimationSystem { get; private set; }
+
+
 
         private Entity entity;
         public TestScreen()
@@ -26,18 +30,38 @@ namespace XenoCore.Engine.Services.Screen
             Systems.Add(CameraSystem = new CameraSystem());
             Systems.Add(RenderingSystem = new RenderingSystem(Systems));
             Systems.Add(WorldSystem = new WorldSystem(Systems));
+            Systems.Add(AnimationSystem = new AnimationSystem(Systems));
 
             entity = EntitySystem.NewEntity();
             RenderingComponent component = RenderingSystem.AddComponent(entity);
-            component.Texture = ServiceProvider.Get<GraphicsService>().ResourceCache.Textures.Get("earth");
-          //  component.Font = ServiceProvider.Get<GraphicsService>().ResourceCache.Fonts.Get("default");
-         //   component.Text = "TEST";
+            Texture t = ServiceProvider.Get<GraphicsService>().ResourceCache.Textures.Get("spritesheet");
+            SpriteSheet ss = new SpriteSheet(t);
+
+
+            ss.Sprites.Add(new Sprite(new Rectangle(0, 90, 33, 45)));
+            ss.Sprites.Add(new Sprite(new Rectangle(33, 90, 33, 45)));
+            ss.Sprites.Add(new Sprite(new Rectangle(68, 90, 46, 45)));
+            ss.Sprites.Add(new Sprite(new Rectangle(125, 90, 37, 45)));
+            ss.Sprites.Add(new Sprite(new Rectangle(162, 90, 31, 45)));
+            ss.Sprites.Add(new Sprite(new Rectangle(193, 90, 29, 45)));
+            ss.Sprites.Add(new Sprite(new Rectangle(222, 90, 31, 45)));
+            ss.Sprites.Add(new Sprite(new Rectangle(253, 90, 41, 45)));
+            ss.Sprites.Add(new Sprite(new Rectangle(300, 90, 35, 45)));
+            ss.Sprites.Add(new Sprite(new Rectangle(336, 90, 30, 45)));
 
             WorldComponent w = WorldSystem.AddComponent(entity);
             w.Position = new Vector2(0, 0);
-            w.BaseSize = new Vector2(800, 600);
+            w.Scale *= 2;
 
-           // CameraSystem.CurrentCamera.Zoom = 1.0f;
+
+            AnimationComponent a = AnimationSystem.AddComponent(entity);
+            a.Animation = new SpriteAnimation("walk", ss) { Loop = true };
+
+            for (int i = 0; i < ss.Sprites.Count; ++i)
+            {
+                a.Animation.Frames.Add(new SpriteAnimationFrame(ss.Sprites[i], 0.1f));
+            }
+
         }
 
 
