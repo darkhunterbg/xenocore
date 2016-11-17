@@ -1,10 +1,12 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using XenoCore.Engine.Services.Graphics;
+using XenoCore.Engine.Services.Input;
 using XenoCore.Engine.Systems.Animation;
 using XenoCore.Engine.Systems.Entities;
 using XenoCore.Engine.Systems.Rendering;
@@ -20,7 +22,7 @@ namespace XenoCore.Engine.Services.Screen
         public CameraSystem CameraSystem { get; private set; }
         public AnimationSystem AnimationSystem { get; private set; }
 
-
+        private Dictionary<String, SpriteAnimation> animations = new Dictionary<string, SpriteAnimation>();
 
         private Entity entity;
         public TestScreen()
@@ -37,6 +39,9 @@ namespace XenoCore.Engine.Services.Screen
             Texture t = ServiceProvider.Get<GraphicsService>().ResourceCache.Textures.Get("spritesheet");
             SpriteSheet ss = new SpriteSheet(t);
 
+            ss.Sprites.Add(new Sprite(new Rectangle(2, 2, 33, 45)));
+            ss.Sprites.Add(new Sprite(new Rectangle(34, 2, 40, 45)));
+            ss.Sprites.Add(new Sprite(new Rectangle(74, 2, 40, 45)));
 
             ss.Sprites.Add(new Sprite(new Rectangle(0, 90, 33, 45)));
             ss.Sprites.Add(new Sprite(new Rectangle(33, 90, 33, 45)));
@@ -54,16 +59,47 @@ namespace XenoCore.Engine.Services.Screen
             w.Scale *= 2;
 
 
+            SpriteAnimation animation = new SpriteAnimation("walk", ss) { Loop = true };
+            for (int i = 3; i < 13; ++i)
+                animation.Frames.Add(new SpriteAnimationFrame(ss.Sprites[i], 0.1f));
+            animations.Add(animation.Name, animation);
+
+            animation = new SpriteAnimation("stand", ss) { Loop = true };
+            animation.Frames.Add(new SpriteAnimationFrame(ss.Sprites[0], 1f));
+            animation.Frames.Add(new SpriteAnimationFrame(ss.Sprites[1], 0.15f));
+            animation.Frames.Add(new SpriteAnimationFrame(ss.Sprites[2], 0.15f));
+            animations.Add(animation.Name, animation);
+
+
             AnimationComponent a = AnimationSystem.AddComponent(entity);
-            a.Animation = new SpriteAnimation("walk", ss) { Loop = true };
-
-            for (int i = 0; i < ss.Sprites.Count; ++i)
-            {
-                a.Animation.Frames.Add(new SpriteAnimationFrame(ss.Sprites[i], 0.1f));
-            }
-
+            a.Animation = animations["stand"];
         }
 
+
+        public override void UpdateInput(GameTime gameTime)
+        {
+            base.UpdateInput(gameTime);
+
+            AnimationComponent a = entity.GetComponent<AnimationComponent>();
+
+            InputService input = ServiceProvider.Get<InputService>();
+            if (input.State.WasKeyPressed(Keys.A))
+            {
+                a.SetAnimation(animations["walk"], true);
+                entity.GetComponent<RenderingComponent>().FlipX = true;
+            }
+            if (input.State.WasKeyPressed(Keys.D))
+            {
+                a.SetAnimation(animations["walk"], true);
+                entity.GetComponent<RenderingComponent>().FlipX = false;
+            }
+
+            if (input.State.CurrentInput.Keyboard.IsKeyUp(Keys.A) &&
+                input.State.CurrentInput.Keyboard.IsKeyUp(Keys.D))
+            {
+                a.SetAnimation(animations["stand"]);
+            }
+        }
 
         public override void Update(GameTime gameTime, bool paused)
         {

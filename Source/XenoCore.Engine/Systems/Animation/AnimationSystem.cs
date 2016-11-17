@@ -103,8 +103,6 @@ namespace XenoCore.Engine.Systems.Animation
                 RenderingComponent renderingComponent = RenderingSystem.GetComponent(entity);
                 if (renderingComponent != null)
                 {
-                    //  frame = component.Animation.Frames[component.FrameIndex];
-
                     renderingComponent.Texture = component.Animation.SpriteSheet.Texture;
                     renderingComponent.TexturePart = frame.Sprite.Region;
                     renderingComponent.Size = new Vector2(frame.Sprite.Region.Width, frame.Sprite.Region.Height);

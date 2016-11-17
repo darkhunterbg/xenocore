@@ -25,5 +25,16 @@ namespace XenoCore.Engine.Systems.Animation
             Paused = false;
             AnimationSpeed = 1.0f;
         }
+
+        public void SetAnimation(SpriteAnimation animation, bool restartIfSame = false)
+        {
+            if(Animation != animation || restartIfSame)
+            {
+                Animation = animation;
+                FrameElapsedTime = 0;
+                FrameIndex = 0;
+            }
+        }
+
     }
 }

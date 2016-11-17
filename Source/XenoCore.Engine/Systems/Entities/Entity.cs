@@ -14,7 +14,12 @@ namespace XenoCore.Engine.Systems.Entities
 
         public T GetComponent<T>() where T : Component
         {
-            return _components.FirstOrDefault(p => p.GetType() == typeof(T)) as T;
+            int count = _components.Count;
+            for (int i = 0; i < count; ++i)
+                if (_components[i] is T)
+                    return _components[i] as T;
+
+            return null;
         }
 
         public bool Equals(Entity other)
