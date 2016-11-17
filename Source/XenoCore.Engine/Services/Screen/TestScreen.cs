@@ -9,7 +9,9 @@ using XenoCore.Engine.Services.Graphics;
 using XenoCore.Engine.Services.Input;
 using XenoCore.Engine.Systems.Animation;
 using XenoCore.Engine.Systems.Entities;
+using XenoCore.Engine.Systems.Events;
 using XenoCore.Engine.Systems.Rendering;
+using XenoCore.Engine.Systems.Scripting;
 using XenoCore.Engine.Systems.World;
 
 namespace XenoCore.Engine.Services.Screen
@@ -21,6 +23,8 @@ namespace XenoCore.Engine.Services.Screen
         public WorldSystem WorldSystem { get; private set; }
         public CameraSystem CameraSystem { get; private set; }
         public AnimationSystem AnimationSystem { get; private set; }
+        public ScriptingSystem ScriptingSystem { get; private set; }
+        public EventSystem EventSystem { get; private set; }
 
         private Dictionary<String, SpriteAnimation> animations = new Dictionary<string, SpriteAnimation>();
 
@@ -33,6 +37,8 @@ namespace XenoCore.Engine.Services.Screen
             Systems.Add(RenderingSystem = new RenderingSystem(Systems));
             Systems.Add(WorldSystem = new WorldSystem(Systems));
             Systems.Add(AnimationSystem = new AnimationSystem(Systems));
+            Systems.Add(ScriptingSystem = new ScriptingSystem(Systems));
+            Systems.Add(EventSystem = new EventSystem(Systems));
 
             entity = EntitySystem.NewEntity();
             RenderingComponent component = RenderingSystem.AddComponent(entity);
@@ -61,7 +67,7 @@ namespace XenoCore.Engine.Services.Screen
 
             SpriteAnimation animation = new SpriteAnimation("walk", ss) { Loop = true };
             for (int i = 3; i < 13; ++i)
-                animation.Frames.Add(new SpriteAnimationFrame(ss.Sprites[i], 0.1f));
+                animation.Frames.Add(new SpriteAnimationFrame(ss.Sprites[i], 0.08f));
             animations.Add(animation.Name, animation);
 
             animation = new SpriteAnimation("stand", ss) { Loop = true };
