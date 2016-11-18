@@ -1,0 +1,123 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <MinimumVisualStudioVersion>14.0</MinimumVisualStudioVersion>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{8DCEF4FA-2A10-429F-98AF-3628277D2C4A}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>XenoCore.Engine</RootNamespace>
+    <AssemblyName>XenoCore.Engine</AssemblyName>
+    <DefaultLanguage>en-US</DefaultLanguage>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
+    <TargetFrameworkVersion>v5.0</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <NoStdLib>true</NoStdLib>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <NoStdLib>true</NoStdLib>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ServiceProvider.cs" />
+    <Compile Include="Services\Assets\AssetsService.cs" />
+    <Compile Include="Services\Assets\AssetStorage.cs" />
+    <Compile Include="Services\Audio\AudioService.cs" />
+    <Compile Include="Services\Audio\AudioChannel.cs" />
+    <Compile Include="Services\Audio\SongPlayer.cs" />
+    <Compile Include="Services\Audio\SoundEffectEntry.cs" />
+    <Compile Include="Services\Graphics\RenderCommand.cs" />
+    <Compile Include="Services\Graphics\Renderer.cs" />
+    <Compile Include="Services\Graphics\RenderState.cs" />
+    <Compile Include="Services\Graphics\GraphicsResources.cs" />
+    <Compile Include="Services\Graphics\ResourceCache.cs" />
+    <Compile Include="Services\Graphics\GraphicsService.cs" />
+    <Compile Include="Services\Input\GameTextInput.cs" />
+    <Compile Include="Services\Input\InputService.cs" />
+    <Compile Include="Services\Input\InputState.cs" />
+    <Compile Include="Services\Input\ITextInputProvider.cs" />
+    <Compile Include="Services\Input\Mouse.cs" />
+    <Compile Include="Services\Screen\Screen.cs" />
+    <Compile Include="Services\Screen\ScreenService.cs" />
+    <Compile Include="Services\Screen\TestScreen.cs" />
+    <Compile Include="SystemProvider.cs" />
+    <Compile Include="Systems\Animation\AnimationComponent.cs" />
+    <Compile Include="Systems\Animation\AnimationSystem.cs" />
+    <Compile Include="Systems\Animation\SpriteAnimation.cs" />
+    <Compile Include="Systems\Entities\Component.cs" />
+    <Compile Include="Systems\Entities\ComponentSystem.cs" />
+    <Compile Include="Systems\Entities\Entity.cs" />
+    <Compile Include="Systems\Entities\EntitySystem.cs" />
+    <Compile Include="Systems\Events\Event.cs" />
+    <Compile Include="Systems\Events\EventSystem.cs" />
+    <Compile Include="Systems\Events\IEventHandler.cs" />
+    <Compile Include="Systems\Rendering\RenderingComponent.cs" />
+    <Compile Include="Systems\Rendering\RenderingSystem.cs" />
+    <Compile Include="Systems\Scripting\Attributes.cs" />
+    <Compile Include="Systems\Scripting\Script.cs" />
+    <Compile Include="Systems\Scripting\ScriptDescription.cs" />
+    <Compile Include="Systems\Scripting\ScriptingSystem.cs" />
+    <Compile Include="Systems\Scripting\Trigger.cs" />
+    <Compile Include="Systems\World\CameraSystem.cs" />
+    <Compile Include="Systems\World\WorldComponent.cs" />
+    <Compile Include="Systems\World\WorldSystem.cs" />
+    <Compile Include="Utilities\Debug.cs" />
+    <Compile Include="Utilities\ListArray.cs" />
+    <Compile Include="Utilities\RectangleF.cs" />
+    <Compile Include="XenoCoreGame.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="MonoGame.Framework">
+      <HintPath>..\..\Dependencies\MonoGame.Framework.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="project.json" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
