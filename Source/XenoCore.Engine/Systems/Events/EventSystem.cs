@@ -12,7 +12,7 @@ namespace XenoCore.Engine.Systems.Events
         private Queue<Event> eventQueue = new Queue<Event>();
         private Dictionary<Type, List<IEventHandler>> recievers = new Dictionary<Type, List<IEventHandler>>();
 
-        public int UpdateOrder { get { return 1; } }
+        public int UpdateOrder { get { return UpdatingOrder.EVENTS; } }
 
         private readonly ScriptingSystem ScriptingSystem;
 
@@ -24,6 +24,11 @@ namespace XenoCore.Engine.Systems.Events
         public EventSystem(ScriptingSystem ss)
         {
             ScriptingSystem = ss;
+        }
+
+        public void OnEvent<E>(Action<E> e) where E : Event
+        {
+            AddReciever<E>(new CallbackEventHandler<E>(e));
         }
 
         public void AddReciever<E>(IEventHandler reciever) where E : Event

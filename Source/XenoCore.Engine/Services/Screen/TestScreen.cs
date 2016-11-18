@@ -10,6 +10,7 @@ using XenoCore.Engine.Services.Input;
 using XenoCore.Engine.Systems.Animation;
 using XenoCore.Engine.Systems.Entities;
 using XenoCore.Engine.Systems.Events;
+using XenoCore.Engine.Systems.Input;
 using XenoCore.Engine.Systems.Rendering;
 using XenoCore.Engine.Systems.Scripting;
 using XenoCore.Engine.Systems.World;
@@ -25,23 +26,35 @@ namespace XenoCore.Engine.Services.Screen
         public AnimationSystem AnimationSystem { get; private set; }
         public ScriptingSystem ScriptingSystem { get; private set; }
         public EventSystem EventSystem { get; private set; }
+        public TimingSystem TimingSystem { get; private set; }
+        public InputControllerSystem InputSystem { get; private set; }
+
 
         private Dictionary<String, SpriteAnimation> animations = new Dictionary<string, SpriteAnimation>();
 
-        private Entity entity;
+        private Entity playerEntity;
+        private Vector2 Movement;
+        private bool idle = false;
+
         public TestScreen()
         {
             int size = 4096;
             Systems.Add(EntitySystem = new EntitySystem(size));
+
+            Systems.Add(ScriptingSystem = new ScriptingSystem(Systems));
+            Systems.Add(EventSystem = new EventSystem(Systems));
+            Systems.Add(TimingSystem = new TimingSystem(Systems));
+
+            Systems.Add(InputSystem = new InputControllerSystem(Systems));
             Systems.Add(CameraSystem = new CameraSystem());
             Systems.Add(RenderingSystem = new RenderingSystem(Systems));
             Systems.Add(WorldSystem = new WorldSystem(Systems));
             Systems.Add(AnimationSystem = new AnimationSystem(Systems));
-            Systems.Add(ScriptingSystem = new ScriptingSystem(Systems));
-            Systems.Add(EventSystem = new EventSystem(Systems));
 
-            entity = EntitySystem.NewEntity();
-            RenderingComponent component = RenderingSystem.AddComponent(entity);
+
+
+            playerEntity = EntitySystem.NewEntity();
+            RenderingComponent component = RenderingSystem.AddComponent(playerEntity);
             Texture t = ServiceProvider.Get<GraphicsService>().ResourceCache.Textures.Get("spritesheet");
             SpriteSheet ss = new SpriteSheet(t);
 
@@ -60,7 +73,7 @@ namespace XenoCore.Engine.Services.Screen
             ss.Sprites.Add(new Sprite(new Rectangle(300, 90, 35, 45)));
             ss.Sprites.Add(new Sprite(new Rectangle(336, 90, 30, 45)));
 
-            WorldComponent w = WorldSystem.AddComponent(entity);
+            WorldComponent w = WorldSystem.AddComponent(playerEntity);
             w.Position = new Vector2(0, 0);
             w.Scale *= 2;
 
@@ -77,39 +90,76 @@ namespace XenoCore.Engine.Services.Screen
             animations.Add(animation.Name, animation);
 
 
-            AnimationComponent a = AnimationSystem.AddComponent(entity);
+            AnimationComponent a = AnimationSystem.AddComponent(playerEntity);
             a.Animation = animations["stand"];
+
+            InputSystem.Bindings.AddRange(new InputBinding[] {
+            new InputBinding("walk.left")
+            {
+                Key = Keys.A,
+                Trigger = ButtonTrigger.Pressed,
+
+            },
+             new InputBinding("walk.right")
+            {
+                Key = Keys.D,
+                Trigger = ButtonTrigger.Pressed,
+            },
+                new InputBinding("walk")
+            {
+                Key = Keys.A,
+                Trigger = ButtonTrigger.Hold,
+            },
+                 new InputBinding("walk")
+            {
+                Key = Keys.D,
+                Trigger = ButtonTrigger.Hold,
+            },
+            });
+
+            EventSystem.OnEvent<InputTriggeredEvent>(e =>
+            {
+                if (e.Argument.CommandName == "walk.left")
+                {
+                    Movement = new Vector2(-1, 0);
+                    playerEntity.GetComponent<AnimationComponent>().SetAnimation(animations["walk"], true);
+                    playerEntity.GetComponent<RenderingComponent>().FlipX = true;
+
+                }
+                if (e.Argument.CommandName == "walk.right")
+                {
+                    Movement = new Vector2(1, 0);
+                    playerEntity.GetComponent<AnimationComponent>().SetAnimation(animations["walk"], true);
+                    playerEntity.GetComponent<RenderingComponent>().FlipX = false;
+                }
+                
+                idle = false;
+            });
         }
 
 
         public override void UpdateInput(GameTime gameTime)
         {
+            idle = true;
+
+            playerEntity.GetComponent<WorldComponent>().Position += Movement * (float)gameTime.ElapsedGameTime.TotalSeconds * 500;
+
             base.UpdateInput(gameTime);
 
-            AnimationComponent a = entity.GetComponent<AnimationComponent>();
+            InputSystem.UpdateInput();
 
-            InputService input = ServiceProvider.Get<InputService>();
-            if (input.State.WasKeyPressed(Keys.A))
-            {
-                a.SetAnimation(animations["walk"], true);
-                entity.GetComponent<RenderingComponent>().FlipX = true;
-            }
-            if (input.State.WasKeyPressed(Keys.D))
-            {
-                a.SetAnimation(animations["walk"], true);
-                entity.GetComponent<RenderingComponent>().FlipX = false;
-            }
 
-            if (input.State.CurrentInput.Keyboard.IsKeyUp(Keys.A) &&
-                input.State.CurrentInput.Keyboard.IsKeyUp(Keys.D))
-            {
-                a.SetAnimation(animations["stand"]);
-            }
         }
 
         public override void Update(GameTime gameTime, bool paused)
         {
             base.Update(gameTime, paused);
+
+            if (idle)
+            {
+                playerEntity.GetComponent<AnimationComponent>().SetAnimation(animations["stand"]);
+                Movement = Vector2.Zero;
+            }
         }
     }
 }

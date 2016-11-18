@@ -15,13 +15,7 @@ namespace XenoCore.Engine.Systems.World
         private readonly RenderingSystem RenderingSystem;
         private readonly CameraSystem CameraSystem;
 
-        public int DrawOrder
-        {
-            get
-            {
-                return -1;
-            }
-        }
+        public int DrawOrder { get { return DrawingOrder.WORLD; } }
 
         public WorldSystem(SystemProvider systems)
            : this(systems.Get<EntitySystem>(), systems.Get<CameraSystem>(), systems.Get<RenderingSystem>())

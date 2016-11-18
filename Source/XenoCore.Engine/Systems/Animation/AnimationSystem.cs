@@ -26,14 +26,7 @@ namespace XenoCore.Engine.Systems.Animation
             WorldSystem = ws;
         }
 
-        public int UpdateOrder
-        {
-            get
-            {
-                return 0;
-            }
-        }
-
+        public int UpdateOrder { get { return UpdatingOrder.ANIMATIONS; } }
 
         public AnimationComponent AddComponent(Entity entity)
         {
@@ -64,9 +57,6 @@ namespace XenoCore.Engine.Systems.Animation
             {
                 AnimationComponent component = animationComponents[i];
                 Entity entity = component.Entity;
-
-             
-
 
                 SpriteAnimationFrame frame = component.Animation.Frames[component.FrameIndex];
                 bool changeFrame = component.FrameElapsedTime > frame.Duration;

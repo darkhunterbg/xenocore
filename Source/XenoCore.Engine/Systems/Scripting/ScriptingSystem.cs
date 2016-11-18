@@ -17,18 +17,14 @@ namespace XenoCore.Engine.Systems.Scripting
         private ConditionContext context = new ConditionContext();
         private List<Script> waitingScripts = new List<Script>();
 
+        public int UpdateOrder { get { return UpdatingOrder.SCRIPTS; } }
+
         public ScriptingSystem(SystemProvider systems)
         {
             this.systems = systems;
         }
 
-        public int UpdateOrder
-        {
-            get
-            {
-                return 3;
-            }
-        }
+
 
         public void LoadFromAssembly(String assemblyName, String @namespace = null)
         {

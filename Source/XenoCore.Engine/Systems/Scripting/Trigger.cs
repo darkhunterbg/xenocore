@@ -37,10 +37,10 @@ namespace XenoCore.Engine.Systems.Scripting
 
             return result;
         }
-        //public static WaitTrigger WaitTime(float seconds, SystemProvider systems)
-        //{
-        //    uint timerid = systems.Get<TimingSystem>().NewTimer(seconds, false);
-        //    return WaitForEvent<TimerExpiredEvent>(null, (e => e.Argument == timerid));
-        //}
+        public static WaitTrigger WaitTime(float seconds, SystemProvider systems)
+        {
+            Timer timer = systems.Get<TimingSystem>().NewTimer(seconds, false);
+            return WaitForEvent<TimerExpiredEvent>(null, (e => e.Argument.Equals(timer)));
+        }
     }
 }

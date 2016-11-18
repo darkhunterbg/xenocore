@@ -17,13 +17,7 @@ namespace XenoCore.Engine.Systems.Rendering
 
         private ComponentContainer<RenderingComponent> renderingComponents;
 
-        public int DrawOrder
-        {
-            get
-            {
-                return 0;
-            }
-        }
+        public int DrawOrder { get { return DrawingOrder.RENDERER; } }
 
         public RenderingSystem(SystemProvider systems)
         : this(systems.Get<EntitySystem>())

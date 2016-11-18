@@ -11,4 +11,20 @@ namespace XenoCore.Engine.Systems.Events
         void OnEvent(Event e);
     }
 
+    class CallbackEventHandler<E> : IEventHandler where E: Event
+    {
+        public Action<E> Handler { get; private set; }
+
+        public CallbackEventHandler(Action<E> handler)
+        {
+            Handler = handler;
+        }
+
+        public void OnEvent(Event e)
+        {
+            Handler.Invoke(e as E);
+        }
+    }
+
+
 }

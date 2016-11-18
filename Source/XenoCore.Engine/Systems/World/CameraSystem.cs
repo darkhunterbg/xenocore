@@ -42,7 +42,7 @@ namespace XenoCore.Engine.Systems.World
 
         public Camera CurrentCamera { get; set; }
 
-        public int DrawOrder { get { return -2; } }
+        public int DrawOrder { get { return DrawingOrder.CAMERA; } }
 
         public CameraSystem()
         {

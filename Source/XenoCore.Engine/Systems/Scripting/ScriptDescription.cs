@@ -7,6 +7,13 @@ using System.Threading.Tasks;
 
 namespace XenoCore.Engine.Systems.Scripting
 {
+    [AttributeUsage(AttributeTargets.Class)]
+    public class ScriptAttribute : Attribute
+    {
+        public String Name { get; set; }
+        public bool Enabled { get; set; } = true;
+    }
+
     [StructLayout(LayoutKind.Sequential)]
     class ScriptDescription
     {

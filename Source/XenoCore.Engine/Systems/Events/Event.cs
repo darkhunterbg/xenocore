@@ -23,7 +23,7 @@ namespace XenoCore.Engine.Systems.Events
     }
 
     [StructLayout(LayoutKind.Sequential)]
-    public class Event<S, A> : Event where S : class where A : class
+    public class Event<S, A> : Event where S : class
     {
         public new S Sender
         {
@@ -40,7 +40,7 @@ namespace XenoCore.Engine.Systems.Events
         {
             get
             {
-                return base.Argument as A;
+                return (A)base.Argument;
             }
             internal set
             {

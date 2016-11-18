@@ -88,12 +88,15 @@
     <Compile Include="Systems\Events\Event.cs" />
     <Compile Include="Systems\Events\EventSystem.cs" />
     <Compile Include="Systems\Events\IEventHandler.cs" />
+    <Compile Include="Systems\Input\InputBinding.cs" />
+    <Compile Include="Systems\Input\InputControllerSystem.cs" />
     <Compile Include="Systems\Rendering\RenderingComponent.cs" />
     <Compile Include="Systems\Rendering\RenderingSystem.cs" />
-    <Compile Include="Systems\Scripting\Attributes.cs" />
     <Compile Include="Systems\Scripting\Script.cs" />
     <Compile Include="Systems\Scripting\ScriptDescription.cs" />
     <Compile Include="Systems\Scripting\ScriptingSystem.cs" />
+    <Compile Include="Systems\Scripting\Timer.cs" />
+    <Compile Include="Systems\Scripting\TimingSystem.cs" />
     <Compile Include="Systems\Scripting\Trigger.cs" />
     <Compile Include="Systems\World\CameraSystem.cs" />
     <Compile Include="Systems\World\WorldComponent.cs" />

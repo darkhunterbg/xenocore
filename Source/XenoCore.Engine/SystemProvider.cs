@@ -32,6 +32,23 @@ namespace XenoCore.Engine
         void Draw(DrawState state);
     }
 
+
+    public static class UpdatingOrder
+    {
+        public const int PHYSICS = 0;
+        public const int ANIMATIONS = 100;
+        public const int TIMERS = 200;
+        public const int EVENTS = 300;
+        public const int SCRIPTS = 400;
+    }
+
+    public static class DrawingOrder
+    {
+        public const int CAMERA = 0;
+        public const int WORLD = 100;
+        public const int RENDERER = 200;
+    }
+
     public class SystemProvider : IDisposable
     {
         private Dictionary<Type, Object> systems = new Dictionary<Type, object>();
