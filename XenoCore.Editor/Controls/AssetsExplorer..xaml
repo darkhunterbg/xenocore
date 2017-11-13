@@ -1,17 +1,18 @@
-﻿<controls:BaseUserControl x:Class="XenoCore.Editor.Controls.AssetsExplorer"
+﻿<local:BaseUserControl x:Class="XenoCore.Editor.Controls.AssetsExplorer"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:controls="clr-namespace:XenoCore.Editor.Controls"
-             xmlns:assets="clr-namespace:XenoCore.Editor.Assets"
              xmlns:local="clr-namespace:XenoCore.Editor.Controls"
+             xmlns:data="clr-namespace:XenoCore.Editor.Controls.Data"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <DockPanel >
         <TextBox Text="{Binding SearchTerm, UpdateSourceTrigger=PropertyChanged}" DockPanel.Dock="Top"/>
 
         <TreeView Name="tvAssets" ItemsSource="{Binding Items}"
+                  TreeViewItem.Expanded="tvAssets_Expanded"
+                  TreeViewItem.Collapsed="tvAssets_Collapsed"
                   DockPanel.Dock="Bottom"  >
 
             <TreeView.Resources>
@@ -24,28 +25,39 @@
                 <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightTextBrushKey}"
                       Color="White" />
 
-                <HierarchicalDataTemplate DataType="{x:Type assets:AssetProject}"  ItemsSource="{Binding Children}" >
+                <HierarchicalDataTemplate DataType="{x:Type data:AssetExplorerProject }"  ItemsSource="{Binding Children}" >
                     <StackPanel  Orientation="Horizontal" >
                         <Image Width="16" Height="16" Source= "{StaticResource ContentProjectIcon}" />
                         <TextBlock Text="{Binding Name}"  />
                     </StackPanel>
                 </HierarchicalDataTemplate>
 
-                <HierarchicalDataTemplate DataType="{x:Type assets:AssetDirectory}"  ItemsSource="{Binding Children}" >
+                <HierarchicalDataTemplate DataType="{x:Type data:AssetExplorerDirectory}"  ItemsSource="{Binding Children}" >
                     <StackPanel  Orientation="Horizontal" >
                         <Image Width="16" Height="16" Source= "{DynamicResource DirectoryIcon}" />
                         <TextBlock Text="{Binding Name}"  />
                     </StackPanel>
                 </HierarchicalDataTemplate>
 
-                <DataTemplate DataType="{x:Type assets:AssetResource}" >
+                <DataTemplate DataType="{x:Type data:AssetExplorerResource}" >
                     <StackPanel  Orientation="Horizontal">
                         <Image Width="16" Height="16" Source= "{Binding Path= Image}" />
                         <TextBlock Text="{Binding Name}"/>
                     </StackPanel>
                 </DataTemplate>
 
+                <Style TargetType="TreeViewItem"  >
+                    <Setter Property="IsSelected" Value="{Binding Path=Selected}"/>
+                    <Setter Property="IsExpanded" Value="{Binding Path=Expanded}"/>
+                    <Style.Triggers>
+
+                        <!--<DataTrigger Binding="{Binding Path=Editing}"  Value="True" >
+                            <Setter Property="HeaderTemplate" Value="{StaticResource editable}"/>
+                        </DataTrigger>-->
+                    </Style.Triggers>
+                </Style>
+
             </TreeView.Resources>
         </TreeView>
     </DockPanel>
-</controls:BaseUserControl>
+</local:BaseUserControl>

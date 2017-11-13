@@ -14,6 +14,8 @@ namespace XenoCore.Editor.Assets
 
         public ObservableCollection<AssetProject> Projects { get; private set; } = new ObservableCollection<AssetProject>();
 
+        public ObservableCollection<AssetResource> AllResources { get; private set; } = new ObservableCollection<AssetResource>();
+
         public AssetsManagerService()
         {
 
@@ -23,6 +25,9 @@ namespace XenoCore.Editor.Assets
         {
             var project = ContentPipelineProject.Open(projectPath);
             Projects.Add(new AssetProject(project));
+            foreach (var r in Projects.Last().AllResources)
+                AllResources.Add(r);
         }
+
     }
 }

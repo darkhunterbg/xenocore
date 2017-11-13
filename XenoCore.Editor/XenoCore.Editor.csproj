@@ -65,7 +65,6 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Assets\AssetDirectory.cs" />
-    <Compile Include="Assets\AssetEntry.cs" />
     <Compile Include="Assets\AssetResource.cs" />
     <Compile Include="Assets\AssetProject.cs" />
     <Compile Include="Controls\AssetsExplorer..xaml.cs">

@@ -10,6 +10,15 @@ using System.Windows.Media.Imaging;
 
 namespace XenoCore.Editor.Assets
 {
+    public enum AssetEntryType
+    {
+        Unknown,
+        Texture,
+        SpriteFont,
+        Effect,
+    }
+
+
     public class AssetResource : AssetEntry
     {
         private ContentItem pipelineItem;
@@ -24,20 +33,20 @@ namespace XenoCore.Editor.Assets
         }
         public String Location
         {
-            get;private set;
+            get; private set;
         }
-
-
-
+        public AssetEntryType Type { get; private set; }
         public ImageSource Image { get; private set; }
 
-        public AssetResource(ContentItem item)
-            : base(GetTypeFromProcessor(item.ProcessorName))
+        public AssetResource(ContentItem item, AssetEntry parent) 
         {
+            base.Parent = parent;
             this.pipelineItem = item;
             RelaitvePath = item.OriginalPath.Normalize();
             Location = item.Location.Normalize();
             Name = Path.GetFileName(RelaitvePath);
+
+            Type = GetTypeFromProcessor(item.ProcessorName);
 
             switch (Type)
             {

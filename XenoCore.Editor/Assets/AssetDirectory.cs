@@ -12,9 +12,9 @@ namespace XenoCore.Editor.Assets
     {
         public ObservableCollection<AssetEntry> Children { get; private set; } = new ObservableCollection<AssetEntry>();
 
-        public AssetDirectory(String name) :
-            base(AssetEntryType.Directory)
+        public AssetDirectory(String name, AssetEntry parent) 
         {
+            base.Parent = parent;
             this.Name = name;
         }
     }
