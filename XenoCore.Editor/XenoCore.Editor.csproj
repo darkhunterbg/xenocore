@@ -55,14 +55,33 @@
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="WindowsFormsIntegration" />
+    <Reference Include="Xceed.Wpf.Toolkit, Version=3.2.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Extended.Wpf.Toolkit.3.2.0\lib\net40\Xceed.Wpf.Toolkit.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Services\AppServiceProvider.cs" />
+    <Compile Include="Assets\AssetDirectory.cs" />
+    <Compile Include="Assets\AssetEntry.cs" />
+    <Compile Include="Assets\AssetResource.cs" />
+    <Compile Include="Assets\AssetProject.cs" />
+    <Compile Include="Controls\AssetsExplorer..xaml.cs">
+      <DependentUpon>AssetsExplorer..xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\BaseUserControl.cs" />
+    <Compile Include="Utils\AppServiceProvider.cs" />
+    <Compile Include="Assets\AssetsManagerService.cs" />
     <Compile Include="Services\GraphicsDeviceService.cs" />
+    <Compile Include="Utils\BaseVM.cs" />
+    <Compile Include="Utils\Extensions.cs" />
+    <Compile Include="Utils\IconManager.cs" />
+    <Page Include="Controls\AssetsExplorer..xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -107,13 +126,23 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\XenoCore.ContentPipeline\XenoCore.ContentPipeline.csproj">
+      <Project>{4db95452-ba12-4595-ab64-c6ce8e0fd754}</Project>
+      <Name>XenoCore.ContentPipeline</Name>
+    </ProjectReference>
     <ProjectReference Include="..\XenoCore.Engine\XenoCore.Engine.csproj">
       <Project>{56454786-7bbf-4a02-b605-22dd2ad58a0b}</Project>
       <Name>XenoCore.Engine</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Controls\" />
+    <Folder Include="GUI\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Effect.png" />
+    <Resource Include="Resources\Font.png" />
+    <Resource Include="Resources\monogame.ico" />
+    <Resource Include="Resources\Xml.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

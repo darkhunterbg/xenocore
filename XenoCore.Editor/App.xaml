@@ -4,6 +4,10 @@
              xmlns:local="clr-namespace:XenoCore.Editor"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-         
+
+        <BitmapImage x:Key="ContentProjectIcon" UriSource="pack://application:,,,/Resources/monogame.ico" />
+        <BitmapImage x:Key="EffectIcon" UriSource="pack://application:,,,/Resources/Effect.png" />
+        <BitmapImage x:Key="FontIcon" UriSource="pack://application:,,,/Resources/Font.png" />
+        <BitmapImage x:Key="XmlIcon" UriSource="pack://application:,,,/Resources/Xml.png" />
     </Application.Resources>
 </Application>

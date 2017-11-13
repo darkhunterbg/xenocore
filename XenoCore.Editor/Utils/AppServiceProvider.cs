@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace XenoCore.Editor.Services
+namespace XenoCore.Editor
 {
     public class AppServiceProvider : IServiceProvider
     {

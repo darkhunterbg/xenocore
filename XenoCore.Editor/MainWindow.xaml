@@ -4,11 +4,20 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:h="clr-namespace:XenoCore.Editor.Host"
+        xmlns:controls="clr-namespace:XenoCore.Editor.Controls"
         xmlns:local="clr-namespace:XenoCore.Editor"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
+        Title="MainWindow" Height="720" Width="1280">
     <Grid>
-        <WindowsFormsHost >
+        <Grid.ColumnDefinitions >
+            <ColumnDefinition Width="0.3*" MinWidth="150" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <controls:AssetsExplorer />
+
+
+        <WindowsFormsHost Grid.Column="1" >
             <h:GraphicsDeviceControl />
         </WindowsFormsHost>
     </Grid>

@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XenoCore.Desktop.Test", "Xe
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XenoCore.Editor", "XenoCore.Editor\XenoCore.Editor.csproj", "{84F3D17F-85A1-43DF-BA80-8DEEADA9ACE3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XenoCore.ContentPipeline", "XenoCore.ContentPipeline\XenoCore.ContentPipeline.csproj", "{4DB95452-BA12-4595-AB64-C6CE8E0FD754}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{84F3D17F-85A1-43DF-BA80-8DEEADA9ACE3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{84F3D17F-85A1-43DF-BA80-8DEEADA9ACE3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{84F3D17F-85A1-43DF-BA80-8DEEADA9ACE3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4DB95452-BA12-4595-AB64-C6CE8E0FD754}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4DB95452-BA12-4595-AB64-C6CE8E0FD754}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4DB95452-BA12-4595-AB64-C6CE8E0FD754}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4DB95452-BA12-4595-AB64-C6CE8E0FD754}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
