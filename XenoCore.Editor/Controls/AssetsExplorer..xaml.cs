@@ -97,7 +97,9 @@ namespace XenoCore.Editor.Controls
     {
         private Func<AssetEntry, bool> filerPredicate;
 
+        private AssetExplorerItem _selectedItem;
         private String _searchTerm = String.Empty;
+
         public String SearchTerm
         {
             get { return _searchTerm; }
@@ -107,6 +109,11 @@ namespace XenoCore.Editor.Controls
                 OnPropertyChanged();
                 Filter();
             }
+        }
+        public AssetExplorerItem SelectedItem
+        {
+            get { return _selectedItem; }
+            private set { _selectedItem = value; OnPropertyChanged(); }
         }
 
         public ObservableCollection<AssetExplorerItem> Items { get; private set; } = new ObservableCollection<AssetExplorerItem>();
@@ -126,7 +133,6 @@ namespace XenoCore.Editor.Controls
             AssetsManagerService.Instance.AllResources.CollectionChanged -= AllResources_CollectionChanged;
             AssetsManagerService.Instance.AllDirectories.CollectionChanged -= AllResources_CollectionChanged;
         }
-
 
         private void AllResources_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
@@ -181,7 +187,7 @@ namespace XenoCore.Editor.Controls
             {
                 if (Items.Count != AssetsManagerService.Instance.Projects.Count)
                 {
-                    foreach(var p in AssetsManagerService.Instance.Projects)
+                    foreach (var p in AssetsManagerService.Instance.Projects)
                     {
                         if (Items.All(q => q.Asset != p))
                             Items.Add(new AssetExplorerItem(p));
@@ -311,47 +317,49 @@ namespace XenoCore.Editor.Controls
 
         private void miDelete_Click(object sender, RoutedEventArgs e)
         {
-            var item = tvAssets.SelectedItem as AssetExplorerItem;
+            SelectedItem.Asset.Project.Delete(SelectedItem.Asset);
+        }
 
-            item.Asset.Project.Delete(item.Asset);
+        private void miRename_Click(object sender, RoutedEventArgs e)
+        {
+            SelectedItem.Editing = true;
         }
 
         private void tvAssets_KeyUp(object sender, KeyEventArgs e)
         {
-            var selected = tvAssets.SelectedItem as AssetExplorerItem;
 
-            if (selected == null)
+            if (SelectedItem == null)
                 return;
 
             switch (e.Key)
             {
                 case Key.F2:
                     {
-                        if (!selected.Editing)
-                            selected.Editing = true;
+                        miRename_Click(this, new RoutedEventArgs());
                         break;
                     }
                 case Key.Enter:
                     {
-                        if (selected.Editing)
+                        if (SelectedItem.Editing)
                         {
-                            if (selected.Name != selected.EditingText)
-                            {
-                                selected.Asset.Project.Rename(selected.Asset, selected.EditingText);
-                            }
-                            selected.Editing = false;
+                            var newName = SelectedItem.EditingText;
+                            SelectedItem.Editing = false;
+
+                            if (SelectedItem.Name != newName)
+                                SelectedItem.Asset.Project.Rename(SelectedItem.Asset, newName);
+
                         }
                         break;
                     }
                 case Key.Escape:
                     {
-                        if (selected.Editing)
-                            selected.Editing = false;
+                        if (SelectedItem.Editing)
+                            SelectedItem.Editing = false;
                         break;
                     }
                 case Key.Delete:
                     {
-                        if (!selected.Editing)
+                        if (!SelectedItem.Editing)
                             miDelete_Click(this, new RoutedEventArgs());
                         break;
                     }
@@ -361,6 +369,11 @@ namespace XenoCore.Editor.Controls
         private void btnRefresh_Click(object sender, RoutedEventArgs e)
         {
             Filter();
+        }
+
+        private void tvAssets_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
+        {
+            SelectedItem = e.NewValue as AssetExplorerItem;
         }
     }
 }

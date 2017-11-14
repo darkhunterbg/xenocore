@@ -19,6 +19,7 @@
         <TreeView Name="tvAssets" ItemsSource="{Binding Items}"
                   TreeViewItem.Expanded="tvAssets_Expanded" TreeViewItem.Collapsed="tvAssets_Collapsed"
                   PreviewMouseRightButtonDown="tvAssets_PreviewMouseRightButtonDown" KeyUp="tvAssets_KeyUp"
+                  SelectedItemChanged="tvAssets_SelectedItemChanged"
                   DockPanel.Dock="Bottom">
 
             <TreeView.Resources>
@@ -33,21 +34,21 @@
 
                 <ContextMenu x:Key="contextMenu" >
                     <MenuItem  Header="Open" Name="miOpen" />
-                    <MenuItem Header="Rename" Name="miRename" />
+                    <MenuItem Header="Rename" Name="miRename" Click="miRename_Click" />
                     <MenuItem Header="Delete" Name="miDelete" Click="miDelete_Click"  />
                 </ContextMenu>
 
                 <HierarchicalDataTemplate  DataType="{x:Type data:AssetExplorerItem}" ItemsSource="{Binding Children}" >
                     <StackPanel  Orientation="Horizontal" >
                         <Image Width="16" Height="16" Source= "{Binding Image}"   />
-                        <TextBlock Text="{Binding Name}"  />
+                        <TextBlock Margin="4,0,4,4" Text="{Binding Name}"  />
                     </StackPanel>
                 </HierarchicalDataTemplate>
 
                 <DataTemplate x:Key="editable" >
                     <StackPanel Orientation="Horizontal"  >
                         <Image Width="16" Height="16" Source= "{Binding Path= Image}" />
-                        <TextBox Text="{Binding Path=EditingText,UpdateSourceTrigger=PropertyChanged}" />
+                        <TextBox Margin="4,0,4,4" Text="{Binding Path=EditingText,UpdateSourceTrigger=PropertyChanged}" />
                     </StackPanel>
                 </DataTemplate>
 
