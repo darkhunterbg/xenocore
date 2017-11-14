@@ -6,7 +6,7 @@
         xmlns:controls="clr-namespace:XenoCore.Editor.Controls"
         xmlns:local="clr-namespace:XenoCore.Editor.GUI"
         mc:Ignorable="d"
-        Title="MainWindow" Height="720" Width="1280" MinWidth="800" MinHeight="600" WindowState="Maximized">
+        Title="MainWindow" Height="720" Width="1280" MinWidth="800" MinHeight="600" >
     <DockPanel>
         <Menu DockPanel.Dock="Top">
             <MenuItem Header="Reload Assets" />

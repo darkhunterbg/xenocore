@@ -21,16 +21,10 @@ namespace XenoCore.Editor.Assets
 
     public class AssetResource : AssetEntry
     {
-        private ContentItem pipelineItem;
+        internal ContentItem PipelineItem { get; private set; }
 
-        private String _relativePath;
 
-        public String RelaitvePath
-        {
-            get { return _relativePath; }
-
-            private set { _relativePath = value; }
-        }
+        public String RelaitvePath { get; private set; }
         public String Location
         {
             get; private set;
@@ -38,11 +32,14 @@ namespace XenoCore.Editor.Assets
         public AssetEntryType Type { get; private set; }
         public ImageSource Image { get; private set; }
 
-        public AssetResource(ContentItem item, AssetEntry parent) 
+        public AssetProject Project { get; private set; }
+
+        public AssetResource(ContentItem item, AssetParent parent, AssetProject project) 
         {
+            this.Project = project;
             base.Parent = parent;
-            this.pipelineItem = item;
-            RelaitvePath = item.OriginalPath.Normalize();
+            this.PipelineItem = item;
+            RelaitvePath = item.OriginalPath.NormalizePath();
             Location = item.Location.Normalize();
             Name = Path.GetFileName(RelaitvePath);
 
@@ -73,5 +70,7 @@ namespace XenoCore.Editor.Assets
             }
             return AssetEntryType.Unknown;
         }
+
+   
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -18,8 +19,7 @@ using System.Windows.Shapes;
 using XenoCore.Editor.Assets;
 using XenoCore.Editor.Controls.Data;
 
-#region Class Data
-
+#region Data
 namespace XenoCore.Editor.Controls.Data
 {
     public abstract class AssetExplorerItem : BaseVM
@@ -53,6 +53,8 @@ namespace XenoCore.Editor.Controls.Data
     }
     public abstract class AssetExplorerItemContainer : AssetExplorerItem
     {
+        public new AssetParent Item { get { return base.Item as AssetParent; } protected set { base.Item = value; } }
+
         public ObservableCollection<AssetExplorerItem> Children { get; private set; } = new ObservableCollection<AssetExplorerItem>();
     }
 
@@ -89,16 +91,13 @@ namespace XenoCore.Editor.Controls.Data
         }
     }
 }
-
 #endregion
 
 namespace XenoCore.Editor.Controls
 {
     public partial class AssetsExplorer : BaseUserControl, IDisposable
     {
-        private ObservableCollection<AssetExplorerItem> allItems = new ObservableCollection<AssetExplorerItem>();
-
-        private ObservableCollection<AssetExplorerItem> _items;
+        private Func<AssetResource, bool> filerPredicate;
 
         private String _searchTerm = String.Empty;
         public String SearchTerm
@@ -112,15 +111,58 @@ namespace XenoCore.Editor.Controls
             }
         }
 
-        public ObservableCollection<AssetExplorerItem> Items { get { return _items; } private set { _items = value; OnPropertyChanged(); } }
+        public ObservableCollection<AssetExplorerItem> Items { get; private set; } = new ObservableCollection<AssetExplorerItem>();
 
         public AssetsExplorer()
         {
-            Items = allItems;
+            AssetsManagerService.Instance.AllResources.CollectionChanged += AllResources_CollectionChanged;
+            AssetsManagerService.Instance.OnDirectoryAdded += Instance_OnDirectoryAdded;
+            AssetsManagerService.Instance.OnDirectoryDeleted += Instance_OnDirectoryDeleted;
 
             InitializeComponent();
 
             Filter();
+        }
+
+        public void Dispose()
+        {
+            AssetsManagerService.Instance.AllResources.CollectionChanged -= AllResources_CollectionChanged;
+            AssetsManagerService.Instance.OnDirectoryAdded -= Instance_OnDirectoryAdded;
+            AssetsManagerService.Instance.OnDirectoryDeleted -= Instance_OnDirectoryDeleted;
+        }
+
+        private void Instance_OnDirectoryAdded(object sender, AssetDirectory e)
+        {
+            if (filerPredicate != null)
+                return;
+        }
+        private void Instance_OnDirectoryDeleted(object sender, AssetDirectory e)
+        {
+            RemoveEntry(e);
+        }
+
+        private void AllResources_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            switch (e.Action)
+            {
+                case NotifyCollectionChangedAction.Add:
+                    {
+                        foreach (AssetResource item in e.OldItems)
+                            if (filerPredicate?.Invoke(item) ?? true)
+                                AddEntry(item, false);
+                        break;
+                    }
+                case NotifyCollectionChangedAction.Remove:
+                    {
+                        foreach (AssetResource item in e.OldItems)
+                            if (filerPredicate?.Invoke(item) ?? true)
+                                RemoveEntry(item);
+                        break;
+                    }
+                default:
+                    throw new NotSupportedException(e.Action.ToString());
+            }
+
         }
 
         private void Filter()
@@ -131,30 +173,34 @@ namespace XenoCore.Editor.Controls
 
             bool expand = false;
 
+            filerPredicate = null;
+
             if (!String.IsNullOrEmpty(SearchTerm))
             {
+
                 var st = SearchTerm.ToLower();
-                collection = collection.Where(p => p.Name.ToLower().Contains(st));
+                filerPredicate = p => p.Name.ToLower().Contains(st);
+
+                collection = collection.Where(filerPredicate);
                 expand = true;
             }
 
-
-            foreach (var resources in collection.OrderByDescending(p=>p.Depth).ThenBy(p=>p.RelaitvePath))
+            foreach (var resources in collection.OrderByDescending(p => p.Depth).ThenBy(p => p.RelaitvePath))
             {
-                 AddResource(resources, expand);
+                AddEntry(resources, expand);
             }
 
-            if(!expand)
+            if (!expand)
             {
                 foreach (var i in Items)
                     i.Expanded = true;
             }
         }
 
-        private AssetExplorerResource AddResource(AssetResource resource, bool expandParents)
+        private AssetExplorerItem AddEntry(AssetEntry entry, bool expandParents)
         {
             Stack<AssetEntry> path = new Stack<AssetEntry>();
-            AssetEntry pathItem = resource.Parent;
+            AssetEntry pathItem = entry.Parent;
             while (pathItem != null)
             {
                 path.Push(pathItem);
@@ -187,15 +233,42 @@ namespace XenoCore.Editor.Controls
                 }
             }
 
-            var item = new AssetExplorerResource(resource);
+            AssetExplorerItem item = null;
+
+            if (entry is AssetResource)
+                item = new AssetExplorerResource(entry as AssetResource);
+            else
+                item = new AssetExplorerDirectory(entry as AssetDirectory);
+
             parent.Children.Add(item);
 
             return item;
         }
-
-
-        public void Dispose()
+        private void RemoveEntry(AssetEntry entry)
         {
+            Stack<AssetEntry> path = new Stack<AssetEntry>();
+            AssetEntry pathItem = entry.Parent;
+            while (pathItem != null)
+            {
+                path.Push(pathItem);
+                pathItem = pathItem.Parent;
+            }
+
+            AssetExplorerItemContainer parent = null;
+
+            while (path.Count > 0)
+            {
+                var prev = parent;
+
+                var collection = prev == null ? Items : parent.Children;
+
+                pathItem = path.Pop();
+
+                parent = collection.FirstOrDefault(p => p.Item == pathItem) as AssetExplorerItemContainer;
+            }
+
+            var item = parent.Children.First(p => p.Item == entry);
+            parent.Children.Remove(item);
         }
 
         private void tvAssets_Expanded(object sender, RoutedEventArgs e)
@@ -204,12 +277,47 @@ namespace XenoCore.Editor.Controls
             if (item != null)
                 item.Expanded = true;
         }
-
         private void tvAssets_Collapsed(object sender, RoutedEventArgs e)
         {
             var item = (e.OriginalSource as TreeViewItem).Header as AssetExplorerItem;
             if (item != null)
                 item.Expanded = false;
+        }
+
+        static TreeViewItem VisualUpwardSearch(DependencyObject source)
+        {
+            while (source != null && !(source is TreeViewItem))
+                source = VisualTreeHelper.GetParent(source);
+
+            return source as TreeViewItem;
+        }
+
+        private void tvAssets_PreviewMouseRightButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            TreeViewItem treeViewItem = VisualUpwardSearch(e.OriginalSource as DependencyObject);
+
+            if (treeViewItem != null)
+            {
+                treeViewItem.Focus();
+                e.Handled = true;
+            }
+        }
+
+        private void miDelete_Click(object sender, RoutedEventArgs e)
+        {
+            var item = tvAssets.SelectedItem as AssetExplorerItem;
+
+            if (item.Item is AssetResource)
+            {
+                var asset = item.Item as AssetResource;
+                asset.Project.DeleteResource(asset);
+            }
+            else
+            {
+                var dir = item.Item as AssetDirectory;
+                dir.Project.DeleteDirectory(dir);
+            }
+
         }
     }
 }

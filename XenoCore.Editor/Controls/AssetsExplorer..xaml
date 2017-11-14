@@ -11,9 +11,9 @@
         <TextBox Text="{Binding SearchTerm, UpdateSourceTrigger=PropertyChanged}" DockPanel.Dock="Top"/>
 
         <TreeView Name="tvAssets" ItemsSource="{Binding Items}"
-                  TreeViewItem.Expanded="tvAssets_Expanded"
-                  TreeViewItem.Collapsed="tvAssets_Collapsed"
-                  DockPanel.Dock="Bottom"  >
+                  TreeViewItem.Expanded="tvAssets_Expanded" TreeViewItem.Collapsed="tvAssets_Collapsed"
+                  PreviewMouseRightButtonDown="tvAssets_PreviewMouseRightButtonDown"
+                  DockPanel.Dock="Bottom">
 
             <TreeView.Resources>
                 <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}"
@@ -25,6 +25,20 @@
                 <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightTextBrushKey}"
                       Color="White" />
 
+                <ContextMenu x:Key="cmAsset" >
+                    <MenuItem  Header="Open" />
+                    <Separator />
+                    <MenuItem Header="Rename" Name="miRename" />
+                    <MenuItem Header="Delete" Name="miDelete" Click="miDelete_Click"  />
+                </ContextMenu>
+
+                <ContextMenu x:Key="cmDir" >
+                    <Separator />
+                    <MenuItem Header="Rename"  />
+                    <MenuItem Header="Delete" Click="miDelete_Click"  />
+                </ContextMenu>
+
+
                 <HierarchicalDataTemplate DataType="{x:Type data:AssetExplorerProject }"  ItemsSource="{Binding Children}" >
                     <StackPanel  Orientation="Horizontal" >
                         <Image Width="16" Height="16" Source= "{StaticResource ContentProjectIcon}" />
@@ -33,14 +47,14 @@
                 </HierarchicalDataTemplate>
 
                 <HierarchicalDataTemplate DataType="{x:Type data:AssetExplorerDirectory}"  ItemsSource="{Binding Children}" >
-                    <StackPanel  Orientation="Horizontal" >
+                    <StackPanel  Orientation="Horizontal" ContextMenu="{StaticResource cmAsset}" >
                         <Image Width="16" Height="16" Source= "{DynamicResource DirectoryIcon}" />
                         <TextBlock Text="{Binding Name}"  />
                     </StackPanel>
                 </HierarchicalDataTemplate>
 
-                <DataTemplate DataType="{x:Type data:AssetExplorerResource}" >
-                    <StackPanel  Orientation="Horizontal">
+                <DataTemplate DataType="{x:Type data:AssetExplorerResource}"  >
+                    <StackPanel  Orientation="Horizontal" ContextMenu="{StaticResource cmAsset}" >
                         <Image Width="16" Height="16" Source= "{Binding Path= Image}" />
                         <TextBlock Text="{Binding Name}"/>
                     </StackPanel>

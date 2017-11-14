@@ -10,16 +10,25 @@ using XenoCore.ContentPipeline;
 
 namespace XenoCore.Editor.Assets
 {
+    public abstract class AssetParent : AssetEntry
+    {
+
+
+        public ObservableCollection<AssetEntry> Children { get; private set; } = new ObservableCollection<AssetEntry>();
+    }
+
+
     public abstract class AssetEntry : BaseVM
     {
-        private AssetEntry _parent;
+        private AssetParent _parent;
         private String _name;
         public String Name { get { return _name; } protected set { _name = value; OnPropertyChanged(); } }
 
-        public AssetEntry Parent
+
+        public AssetParent Parent
         {
             get { return _parent; }
-            set
+            protected set
             {
                 _parent = value; OnPropertyChanged();
                 Depth = (Parent?.Depth ?? -1) + 1;
@@ -29,23 +38,25 @@ namespace XenoCore.Editor.Assets
         public int Depth { get; private set; }
     }
 
-    public class AssetProject : AssetEntry
+    public class AssetProject : AssetParent
     {
-        private ContentPipelineProject pipelineProject;
+        internal ContentPipelineProject PipelineProject { get; private set; }
 
-        public ObservableCollection<AssetEntry> Children { get; private set; } = new ObservableCollection<AssetEntry>();
 
         public ObservableCollection<AssetResource> AllResources { get; private set; } = new ObservableCollection<AssetResource>();
 
         public String ContentLocation { get; private set; }
         public String ContentOutputLocation { get; private set; }
+        public String ProjectFilePath { get; private set; }
 
         public AssetProject(ContentPipelineProject project)
         {
-            this.pipelineProject = project;
+            this.PipelineProject = project;
 
+            ProjectFilePath = Path.GetFullPath(project.FilePath.NormalizePath());
             ContentLocation = Path.GetFullPath(project.Location.NormalizePath());
             ContentOutputLocation = Path.Combine(ContentLocation, project.OutputDir.NormalizePath());
+
 
             Name = Path.GetFileName(project.FilePath);
 
@@ -59,7 +70,7 @@ namespace XenoCore.Editor.Assets
         private void AddResource(ContentItem item)
         {
             ObservableCollection<AssetEntry> collection = Children;
-            AssetEntry parent = this;
+            AssetParent parent = this;
 
             if (!String.IsNullOrEmpty(item.Location))
             {
@@ -70,16 +81,26 @@ namespace XenoCore.Editor.Assets
                     var prev = parent;
                     parent = collection.FirstOrDefault(p => p.Name == dir && p is AssetDirectory) as AssetDirectory;
                     if (parent == null)
-                        collection.Add(parent = new AssetDirectory(dir, prev));
+                        collection.Add(parent = new AssetDirectory(dir, prev, this));
 
                     collection = (parent as AssetDirectory).Children;
                 }
             }
 
-            var asset = new AssetResource(item, parent);
+            var asset = new AssetResource(item, parent, this);
 
             AllResources.Add(asset);
             collection.Add(asset);
+        }
+
+        public void DeleteResource(AssetResource resource)
+        {
+            AssetsManagerService.Instance.DeleteResources(this, resource);
+        }
+
+        public void DeleteDirectory(AssetDirectory directory)
+        {
+            AssetsManagerService.Instance.DeleteDirectories(this, directory);
         }
     }
 }
