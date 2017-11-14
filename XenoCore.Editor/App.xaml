@@ -1,8 +1,8 @@
 ﻿<Application x:Class="XenoCore.Editor.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="clr-namespace:XenoCore.Editor"
-             StartupUri="MainWindow.xaml">
+             xmlns:local="clr-namespace:XenoCore.Editor.GUI"
+             StartupUri="GUI\MainWindow.xaml">
     <Application.Resources>
 
         <BitmapImage x:Key="ContentProjectIcon" UriSource="pack://application:,,,/Resources/monogame.ico" />
