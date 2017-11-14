@@ -23,25 +23,14 @@ namespace XenoCore.Editor.Assets
     {
         internal ContentItem PipelineItem { get; private set; }
 
-
-        public String RelaitvePath { get; private set; }
-        public String Location
-        {
-            get; private set;
-        }
         public AssetEntryType Type { get; private set; }
         public ImageSource Image { get; private set; }
 
-        public AssetProject Project { get; private set; }
-
-        public AssetResource(ContentItem item, AssetParent parent, AssetProject project) 
+        public AssetResource(ContentItem item, AssetProject project) 
         {
             this.Project = project;
-            base.Parent = parent;
             this.PipelineItem = item;
-            RelaitvePath = item.OriginalPath.NormalizePath();
-            Location = item.Location.Normalize();
-            Name = Path.GetFileName(RelaitvePath);
+            RelativePath = item.OriginalPath.NormalizePath();
 
             Type = GetTypeFromProcessor(item.ProcessorName);
 
@@ -55,7 +44,7 @@ namespace XenoCore.Editor.Assets
                     Image = App.Current.Resources["FontIcon"] as BitmapImage;
                     break;
                 default:
-                    Image = IconManager.FindIconForFilename(RelaitvePath, false);
+                    Image = IconManager.FindIconForFilename(RelativePath, false);
                     break;
             }
         }

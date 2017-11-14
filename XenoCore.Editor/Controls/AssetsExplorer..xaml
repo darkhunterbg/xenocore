@@ -8,11 +8,17 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <DockPanel >
-        <TextBox Text="{Binding SearchTerm, UpdateSourceTrigger=PropertyChanged}" DockPanel.Dock="Top"/>
+        <StackPanel Orientation="Vertical" DockPanel.Dock="Top" >
+            <DockPanel >
+                <Button Name="btnRefresh"   DockPanel.Dock="Right" Padding="4" Click="btnRefresh_Click" >Refresh</Button>
+                <TextBox Text="{Binding SearchTerm, UpdateSourceTrigger=PropertyChanged}" DockPanel.Dock="Left" />
+            </DockPanel>
+        </StackPanel>
+
 
         <TreeView Name="tvAssets" ItemsSource="{Binding Items}"
                   TreeViewItem.Expanded="tvAssets_Expanded" TreeViewItem.Collapsed="tvAssets_Collapsed"
-                  PreviewMouseRightButtonDown="tvAssets_PreviewMouseRightButtonDown"
+                  PreviewMouseRightButtonDown="tvAssets_PreviewMouseRightButtonDown" KeyUp="tvAssets_KeyUp"
                   DockPanel.Dock="Bottom">
 
             <TreeView.Resources>
@@ -25,38 +31,23 @@
                 <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightTextBrushKey}"
                       Color="White" />
 
-                <ContextMenu x:Key="cmAsset" >
-                    <MenuItem  Header="Open" />
-                    <Separator />
+                <ContextMenu x:Key="contextMenu" >
+                    <MenuItem  Header="Open" Name="miOpen" />
                     <MenuItem Header="Rename" Name="miRename" />
                     <MenuItem Header="Delete" Name="miDelete" Click="miDelete_Click"  />
                 </ContextMenu>
 
-                <ContextMenu x:Key="cmDir" >
-                    <Separator />
-                    <MenuItem Header="Rename"  />
-                    <MenuItem Header="Delete" Click="miDelete_Click"  />
-                </ContextMenu>
-
-
-                <HierarchicalDataTemplate DataType="{x:Type data:AssetExplorerProject }"  ItemsSource="{Binding Children}" >
+                <HierarchicalDataTemplate  DataType="{x:Type data:AssetExplorerItem}" ItemsSource="{Binding Children}" >
                     <StackPanel  Orientation="Horizontal" >
-                        <Image Width="16" Height="16" Source= "{StaticResource ContentProjectIcon}" />
+                        <Image Width="16" Height="16" Source= "{Binding Image}"   />
                         <TextBlock Text="{Binding Name}"  />
                     </StackPanel>
                 </HierarchicalDataTemplate>
 
-                <HierarchicalDataTemplate DataType="{x:Type data:AssetExplorerDirectory}"  ItemsSource="{Binding Children}" >
-                    <StackPanel  Orientation="Horizontal" ContextMenu="{StaticResource cmAsset}" >
-                        <Image Width="16" Height="16" Source= "{DynamicResource DirectoryIcon}" />
-                        <TextBlock Text="{Binding Name}"  />
-                    </StackPanel>
-                </HierarchicalDataTemplate>
-
-                <DataTemplate DataType="{x:Type data:AssetExplorerResource}"  >
-                    <StackPanel  Orientation="Horizontal" ContextMenu="{StaticResource cmAsset}" >
+                <DataTemplate x:Key="editable" >
+                    <StackPanel Orientation="Horizontal"  >
                         <Image Width="16" Height="16" Source= "{Binding Path= Image}" />
-                        <TextBlock Text="{Binding Name}"/>
+                        <TextBox Text="{Binding Path=EditingText,UpdateSourceTrigger=PropertyChanged}" />
                     </StackPanel>
                 </DataTemplate>
 
@@ -65,13 +56,14 @@
                     <Setter Property="IsExpanded" Value="{Binding Path=Expanded}"/>
                     <Style.Triggers>
 
-                        <!--<DataTrigger Binding="{Binding Path=Editing}"  Value="True" >
+                        <DataTrigger Binding="{Binding Path=Editing}"  Value="True" >
                             <Setter Property="HeaderTemplate" Value="{StaticResource editable}"/>
-                        </DataTrigger>-->
+                        </DataTrigger>
                     </Style.Triggers>
                 </Style>
 
             </TreeView.Resources>
+
         </TreeView>
     </DockPanel>
 </local:BaseUserControl>

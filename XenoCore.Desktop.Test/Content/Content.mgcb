@@ -25,7 +25,7 @@
 /processorParam:TextureFormat=Color
 /build:PaU6s5n.jpg
 
-#begin hatsune-miku-long-hair-anime-girl-sitting-at-beach-sunset-butterfly-2K-wallpaper.jpg
+#begin bbb/PaU6s5n.jpg
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -35,9 +35,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:hatsune-miku-long-hair-anime-girl-sitting-at-beach-sunset-butterfly-2K-wallpaper.jpg
+/build:bbb/PaU6s5n.jpg
 
-#begin ASDF/PaU6s5n.jpg
+#begin bbb/bbb/PaU6s5n.jpg
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -47,17 +47,5 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:ASDF/PaU6s5n.jpg
-
-#begin tkNzGn8.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:tkNzGn8.png
+/build:bbb/bbb/PaU6s5n.jpg
 
