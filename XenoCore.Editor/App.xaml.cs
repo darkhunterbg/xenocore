@@ -30,7 +30,7 @@ namespace XenoCore.Editor
             Services.AddService<IGraphicsDeviceService>(new GraphicsDeviceService(IntPtr.Zero));
             Services.AddService(new AssetsManagerService());
 
-            Services.GetService<AssetsManagerService>().AddProject(System.IO.Path.GetFullPath(@"..\..\..\XenoCore.Desktop.Test\Content\Content.mgcb"));
+            Services.GetService<AssetsManagerService>().AddProject(System.IO.Path.GetFullPath(@"..\..\..\Assets\Assets.mgcb"));
         }
 
     }

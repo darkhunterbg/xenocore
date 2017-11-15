@@ -9,7 +9,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XenoCore.Editor", "XenoCore
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XenoCore.ContentPipeline", "XenoCore.ContentPipeline\XenoCore.ContentPipeline.csproj", "{4DB95452-BA12-4595-AB64-C6CE8E0FD754}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XenoCore.Desktop.Test", "XenoCore.Desktop.Test\XenoCore.Desktop.Test.csproj", "{25EE9A9B-ADB1-4716-A512-9CBC836288C9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XenoCore.Desktop.Test", "XenoCore.Desktop.Test\XenoCore.Desktop.Test.csproj", "{11A5621B-A18A-4FD9-8FE1-DF099FBBF862}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,10 +29,10 @@ Global
 		{4DB95452-BA12-4595-AB64-C6CE8E0FD754}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4DB95452-BA12-4595-AB64-C6CE8E0FD754}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4DB95452-BA12-4595-AB64-C6CE8E0FD754}.Release|Any CPU.Build.0 = Release|Any CPU
-		{25EE9A9B-ADB1-4716-A512-9CBC836288C9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{25EE9A9B-ADB1-4716-A512-9CBC836288C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{25EE9A9B-ADB1-4716-A512-9CBC836288C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{25EE9A9B-ADB1-4716-A512-9CBC836288C9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{11A5621B-A18A-4FD9-8FE1-DF099FBBF862}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{11A5621B-A18A-4FD9-8FE1-DF099FBBF862}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{11A5621B-A18A-4FD9-8FE1-DF099FBBF862}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{11A5621B-A18A-4FD9-8FE1-DF099FBBF862}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
