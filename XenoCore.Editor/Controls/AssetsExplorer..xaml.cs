@@ -346,8 +346,14 @@ namespace XenoCore.Editor.Controls
                             SelectedItem.Editing = false;
 
                             if (SelectedItem.Name != newName)
+                            {
+                                if(SelectedItem.Asset is AssetDirectory)
+                                {
+                                    //Workaround: refresh ui
+                                    //btnRefresh_Click(sender, new RoutedEventArgs());
+                                }
                                 SelectedItem.Asset.Project.Rename(SelectedItem.Asset, newName);
-
+                            }
                         }
                         break;
                     }

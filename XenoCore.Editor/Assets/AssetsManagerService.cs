@@ -18,7 +18,6 @@ namespace XenoCore.Editor.Assets
         public ObservableCollection<AssetResource> AllResources { get; private set; } = new ObservableCollection<AssetResource>();
         public ObservableCollection<AssetDirectory> AllDirectories { get; private set; } = new ObservableCollection<AssetDirectory>();
 
-
         public void AddProject(String projectPath)
         {
             var project = ContentPipelineProject.Open(projectPath);
@@ -85,12 +84,11 @@ namespace XenoCore.Editor.Assets
             Add(project, directory);
             AllDirectories.Add(directory);
 
-       
+
             UpdateChildrenPath(project, directory);
 
             project.PipelineProject.Save();
         }
-
 
         public void DeleteDirectories(AssetProject project, params AssetDirectory[] directories)
         {
@@ -141,10 +139,11 @@ namespace XenoCore.Editor.Assets
 
                 StringBuilder path = new StringBuilder();
 
-                foreach (var dir in dirs)
-                {
 
-                    if (dir == dirs[0])
+                for (int i = 0; i < dirs.Length; ++i)
+                {
+                    string dir = dirs[i];
+                    if (i == 0)
                         path.Append(dir);
                     else
                         path.Append($"{Path.DirectorySeparatorChar}{dir}");

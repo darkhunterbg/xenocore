@@ -78,7 +78,7 @@
     </Compile>
     <Compile Include="Utils\AppServiceProvider.cs" />
     <Compile Include="Assets\AssetsManagerService.cs" />
-    <Compile Include="Services\GraphicsDeviceService.cs" />
+    <Compile Include="Other\GraphicsDeviceService.cs" />
     <Compile Include="Utils\BaseVM.cs" />
     <Compile Include="Utils\Extensions.cs" />
     <Compile Include="Utils\IconManager.cs" />
