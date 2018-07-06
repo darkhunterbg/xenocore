@@ -37,11 +37,11 @@ namespace XenoCore.Builder.Screens
             Systems.Register(ParticleSystem = new ParticleSystem(Systems));
             Systems.Register(new GUISystem());
 
-            var container = new RelativeContainer();
-            container.Add(new CameraDisplay()
+            var container = new StackContainer();
+            container.Children.Add(new CameraDisplay()
             {
                 Camera = Camera
-            }, Vector2.Zero, Vector2.One);
+            });
 
             Systems.Get<GUISystem>().RootControl = container;
 
