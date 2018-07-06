@@ -74,16 +74,16 @@ namespace XenoCore.Engine.Screens
             //container.Columns.Add(new GridContainer.GridColumn(0.5f));
 
 
-            //container.Children.Add(new CameraDisplay()
-            //{
-            //    Camera = CameraSystem.Cameras[0],
-            //    Weight = 0.5f,
-            //    Visiblity = Visiblity.Collapsed
+            container.Children.Add(new CameraDisplay()
+            {
+                Camera = CameraSystem.Cameras[0],
+                Weight = 0.5f,
+                Visiblity = Visiblity.Visible
 
-            //    //  Width = new Coordinate(640),
-            //    //  Height = new Coordinate(0.5f),
-            //    // HorizontalAlignment = HorizontalAlignment.Left,
-            //});
+                //  Width = new Coordinate(640),
+                //  Height = new Coordinate(0.5f),
+                // HorizontalAlignment = HorizontalAlignment.Left,
+            });
 
             //container.Children.Add(new CameraDisplay()
             //{
@@ -94,26 +94,26 @@ namespace XenoCore.Engine.Screens
             //    // HorizontalAlignment = HorizontalAlignment.Right,
             //});
 
-            for (int i = 0; i < 10; ++i)
-            {
-                var stack = new StackContainer()
-                {
-                    Orientation = StackOrientation.Vertical,
-                    Weight = 1,
-                };
-                for (int j = 0; j < 10; ++j)
-                {
-                    stack.Children.Add(new Button()
-                    {
-                        Margin = new MarginDef(1),
-                        Weight = 1,
-                        Text = ".",
-                        Clicked = () => ConsoleService.DevMsg("Button Clicked!"),
-                    });
-                }
+            //for (int i = 0; i < 10; ++i)
+            //{
+            //    var stack = new StackContainer()
+            //    {
+            //        Orientation = StackOrientation.Vertical,
+            //        Weight = 1,
+            //    };
+            //    for (int j = 0; j < 10; ++j)
+            //    {
+            //        stack.Children.Add(new Button()
+            //        {
+            //            Margin = new MarginDef(1),
+            //            Weight = 1,
+            //            Text = ".",
+            //            Clicked = () => ConsoleService.DevMsg("Button Clicked!"),
+            //        });
+            //    }
 
-                container.Children.Add(stack);
-            }
+            //    container.Children.Add(stack);
+            //}
 
 
             PhysicsDebugger.Enabled = true;
@@ -160,7 +160,7 @@ namespace XenoCore.Engine.Screens
             effect.Emitters[0].Modules.Add(new ColorOverLifeModule()
             {
                 ColorOverLife = new RandomColor(Color.Blue, Color.Green),
-                //  AlphaOverLife = new RandomFloat(0),
+                 AlphaOverLife = new RandomFloat(0),
             });
             //effect.Emitters[0].Modules.Add(new InitialVelocityModule()
             //{
@@ -207,7 +207,7 @@ namespace XenoCore.Engine.Screens
                 EntitySystem.DeleteEntity(e[i].ID);
             }
 
-            for (int i = 0; i < 1; ++i)
+            for (int i = 0; i < 500; ++i)
             {
                 var entity = EntitySystem.NewEntity();
                 var c = WorldSystem.AddComponent(entity);
@@ -226,18 +226,19 @@ namespace XenoCore.Engine.Screens
                 col.Shapes.Add(new BoxShape(c.BaseSize) { Restitution = 0.95f });
 
                 ph.Drag = 0.15f;
-                //   ph.Velocity = new Vector2(-500, 00);// * ((2*i)-1); // * 8;
-                // ph.Acceleration = new Vector2(0, 10);
-                //var entity2 = entitySystem.NewEntity();
-                //var c2 = worldSystem.AddComponent(entity2);
+                ph.Velocity = new Vector2(-800, 00);// * ((2*i)-1); // * 8;
+                ph.Acceleration = new Vector2(0, 10);
 
-                //c2.Size = new Vector2(89, 150);
-                //c2.Texture = ResourcesService.LoadTexture("Player");
+                //var entity2 = EntitySystem.NewEntity();
+                //var c2 = WorldSystem.AddComponent(entity2);
+
+                //c2.BaseSize = new Vector2(89, 150);
+                //c2.Texture = GraphicsService.Cache.GetTexture("Player");
                 //c2.Color = Color.Red;
                 //c2.Blending = Graphics.BlendingMode.Alpha;
                 //c2.ParentOffset = new Vector2(0, 50);
 
-                //entitySystem.AddChild(entity, entity2);
+                //EntitySystem.AddChild(entity, entity2);
             }
 
             var entity1 = EntitySystem.NewEntity();
