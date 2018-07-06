@@ -1,0 +1,47 @@
+﻿<Window x:Class="XenoCore.Builder.GUI.ProjectSettingsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:XenoCore.Builder.GUI"
+        xmlns:vm="clr-namespace:XenoCore.Builder.MVVM"
+        mc:Ignorable="d" 
+        WindowStartupLocation="CenterScreen"
+        Title="ProjectSettingsWindow" Height="303.814" Width="406.78">
+    <Window.DataContext>
+        <vm:ProjectSettingsViewModel/>
+    </Window.DataContext>
+    <Window.Resources>
+        <BooleanToVisibilityConverter x:Key="BoolToVis" />
+    </Window.Resources>
+    
+    <Grid Background="DarkGray" >
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <StackPanel Orientation="Vertical" Margin="16" >
+            <DockPanel IsEnabled="{Binding IsNew}">
+                <TextBlock>Project Name</TextBlock>
+                <TextBox Margin="8,0,0,0" Text="{Binding ProjectName, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+            </DockPanel>
+            <DockPanel Margin="0,16,0,0" Visibility="{Binding IsNew,Converter={StaticResource BoolToVis}}">
+                <TextBlock>Project Dir</TextBlock>
+                <Button DockPanel.Dock="Right" Name="btnSelectProjectDir" Width="20" Click="btnSelectProjectDir_Click" >...</Button>
+                <TextBox Margin="8,0,8,0"  Text="{Binding ProjectDir, UpdateSourceTrigger=PropertyChanged}" ></TextBox>
+            </DockPanel>
+            <DockPanel Margin="0,16,0,0">
+                <TextBlock>Content Output Dir</TextBlock>
+                <Button DockPanel.Dock="Right" Name="btnSelectContentDir" Width="20" Click="btnSelectContentDir_Click" >...</Button>
+                <TextBox Margin="8,0,8,0"  Text="{Binding OutputContentDir, UpdateSourceTrigger=PropertyChanged}" ></TextBox>
+            </DockPanel>
+        </StackPanel>
+
+        <StackPanel Grid.Row="1"  Margin="16" Orientation="Horizontal" HorizontalAlignment="Center">
+            <Button Name="btnCancel" Width="80" Height="30" IsCancel="True" Click="btnCancel_Click"
+                    Visibility="{Binding IsNew,Converter={StaticResource BoolToVis}}">Cancel</Button>
+            <Button Name="btnOK" Margin="16,0,0,0"  Height="30"  Width="80" IsDefault="True" IsEnabled="{Binding Valid}"  Click="btnOK_Click">OK</Button>
+        </StackPanel>
+    </Grid>
+</Window>

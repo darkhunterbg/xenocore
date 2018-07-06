@@ -22,13 +22,13 @@ namespace MonoGame.Tools.Pipeline
         private readonly PipelineProject _project;
         private readonly IContentItemObserver _observer;
         private readonly OpaqueDataDictionary _processorParams = new OpaqueDataDictionary();
-
+        
         private string _processor;
-
+        
         #endregion
 
         #region CommandLineParameters
-
+        
         [CommandLineParameter(
             Name = "outputDir",
             ValueName = "directoryPath",
@@ -45,10 +45,10 @@ namespace MonoGame.Tools.Pipeline
             Name = "reference",
             ValueName = "assemblyNameOrFile",
             Description = "Adds an assembly reference for resolving content importers, processors, and writers.")]
-        public List<string> References
+        public List<string> References 
         {
             set { _project.References = value; }
-            get { return _project.References; }
+            get { return _project.References; } 
         }
 
         [CommandLineParameter(
@@ -69,7 +69,7 @@ namespace MonoGame.Tools.Pipeline
             Description = "The optional build config string from the build system.")]
         public string Config { set { _project.Config = value; } }
 
-#pragma warning disable 414
+        #pragma warning disable 414
 
         // Allow a MGCB file containing the /rebuild parameter to be imported without error
         [CommandLineParameter(
@@ -87,7 +87,7 @@ namespace MonoGame.Tools.Pipeline
         public bool Clean { set { _clean = value; } }
         private bool _clean;
 
-#pragma warning restore 414
+        #pragma warning restore 414
 
         [CommandLineParameter(
             Name = "compress",
@@ -175,9 +175,8 @@ namespace MonoGame.Tools.Pipeline
             // Copy the current processor parameters blind as we
             // will validate and remove invalid parameters during
             // the build process later.
-            if (_processorParams.Count > 0)
-                foreach (var pair in _processorParams)
-                    item.ProcessorParams.Add(pair.Key, pair.Value);
+            foreach (var pair in _processorParams)
+                item.ProcessorParams.Add(pair.Key, pair.Value);
 
             return true;
         }
@@ -221,7 +220,7 @@ namespace MonoGame.Tools.Pipeline
         {
             _observer = observer;
             _project = project;
-        }
+        }        
 
         public void OpenProject(string projectFilePath, MGBuildParser.ErrorCallback errorCallback)
         {
@@ -248,7 +247,7 @@ namespace MonoGame.Tools.Pipeline
             using (var io = File.CreateText(_project.OriginalPath))
                 SaveProject(io, null);
         }
-
+        
         public void SaveProject(TextWriter io, Func<ContentItem, bool> filterItem)
         {
             const string lineFormat = "/{0}:{1}";
@@ -425,13 +424,13 @@ namespace MonoGame.Tools.Pipeline
         {
             get
             {
-                return _project.Location;
+                return _project.Location;                
             }
         }
 
         private void ReadIncludeReference(XmlReader io, out string include, out string hintPath)
         {
-            include = io.GetAttribute("Include").Unescape();
+            include = io.GetAttribute("Include").Unescape();            
             hintPath = null;
 
             if (!io.IsEmptyElement)

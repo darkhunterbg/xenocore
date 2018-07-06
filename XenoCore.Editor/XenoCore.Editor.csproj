@@ -126,10 +126,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\XenoCore.ContentPipeline\XenoCore.ContentPipeline.csproj">
-      <Project>{4db95452-ba12-4595-ab64-c6ce8e0fd754}</Project>
-      <Name>XenoCore.ContentPipeline</Name>
-    </ProjectReference>
     <ProjectReference Include="..\XenoCore.Engine\XenoCore.Engine.csproj">
       <Project>{56454786-7bbf-4a02-b605-22dd2ad58a0b}</Project>
       <Name>XenoCore.Engine</Name>

@@ -11,14 +11,13 @@ using System.Linq;
 using System.Reflection;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content.Pipeline;
+using Microsoft.Xna.Framework.Content.Pipeline.Builder.Convertors;
 using Microsoft.Xna.Framework.Graphics;
 using System.Diagnostics;
 using MonoGame.Framework.Content.Pipeline.Builder;
-using Microsoft.Xna.Framework.Content.Pipeline.Builder.Convertors;
 
 namespace MonoGame.Tools.Pipeline
 {
- 
     public class ImporterTypeDescription
     {        
         public string TypeName;
@@ -469,18 +468,18 @@ namespace MonoGame.Tools.Pipeline
                 if (t.IsAbstract)
                     continue;
 
-
                 if (t.GetInterface(@"IContentImporter") == typeof(IContentImporter))
                 {
-                    var importerAttribute = t.GetCustomAttribute<ContentImporterAttribute>();
-                    if (importerAttribute != null)
+                    var attributes = t.GetCustomAttributes(typeof(ContentImporterAttribute), false);
+                    if (attributes.Length != 0)
                     {
+                        var importerAttribute = attributes[0] as ContentImporterAttribute;
                         _importers.Add(new ImporterInfo { Attribute = importerAttribute, Type = t });
                     }
                     else
                     {
                         // If no attribute specify default one
-                        importerAttribute = new ContentImporterAttribute(".*");
+                        var importerAttribute = new ContentImporterAttribute(".*");
                         importerAttribute.DefaultProcessor = "";
                         importerAttribute.DisplayName = t.Name;
                         _importers.Add(new ImporterInfo { Attribute = importerAttribute, Type = t });

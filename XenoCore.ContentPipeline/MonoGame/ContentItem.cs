@@ -5,6 +5,7 @@
 using System.ComponentModel;
 using System.Globalization;
 using Microsoft.Xna.Framework.Content.Pipeline;
+using Microsoft.Xna.Framework.Content.Pipeline.Builder.Convertors;
 
 namespace MonoGame.Tools.Pipeline
 {
